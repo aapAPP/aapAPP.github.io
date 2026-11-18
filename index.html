@@ -301,17 +301,58 @@
                 <!-- 訊息提示盒 -->
                 <div id="message-box" class="hidden mb-6 p-4 rounded-xl text-sm font-medium border"></div>
 
-                <!-- API Key 與模型設定區塊（避免硬編碼資安風險，支援本地記住） -->
-                <div class="mb-6 p-4 bg-white rounded-2xl border border-slate-200 text-left space-y-3">
+                <!-- 雙軌引擎模式切換 Tab -->
+                <div class="mb-6 p-1.5 bg-slate-200/80 rounded-2xl flex items-center gap-1.5 text-xs sm:text-sm font-semibold">
+                    <button id="engineLocalTab" type="button" class="flex-1 py-2.5 px-4 rounded-xl bg-white text-blue-600 shadow-sm transition flex items-center justify-center space-x-2">
+                        <i class="fa-solid fa-bolt-lightning text-amber-500"></i>
+                        <span>本機智慧素描 (免金鑰・完全免費)</span>
+                    </button>
+                    <button id="engineAiTab" type="button" class="flex-1 py-2.5 px-4 rounded-xl text-slate-600 hover:text-slate-900 transition flex items-center justify-center space-x-2">
+                        <i class="fa-solid fa-cloud text-blue-500"></i>
+                        <span>Gemini 雲端 AI (Nano Banana)</span>
+                    </button>
+                </div>
+
+                <!-- 模式 A：本機素描微調面板 (預設顯示) -->
+                <div id="localConfigPanel" class="mb-6 p-4 bg-white rounded-2xl border border-slate-200 text-left space-y-4">
+                    <div class="flex items-center justify-between">
+                        <span class="text-xs font-bold text-slate-700 flex items-center space-x-1.5">
+                            <i class="fa-solid fa-sliders text-blue-500"></i>
+                            <span>本機手繪質感調校（純前端即時運算）</span>
+                        </span>
+                        <span class="text-xs text-emerald-600 font-medium px-2 py-0.5 bg-emerald-50 rounded-full">
+                            <i class="fa-solid fa-circle-check text-[10px] mr-1"></i>免連網・免 API Key
+                        </span>
+                    </div>
+                    <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                        <div>
+                            <div class="flex justify-between text-xs text-slate-600 mb-1">
+                                <span>鉛筆筆觸細節度 (Radius)：</span>
+                                <span id="strokeVal" class="font-mono font-semibold text-blue-600">6</span>
+                            </div>
+                            <input type="range" id="strokeSlider" min="2" max="16" value="6" class="w-full h-1.5 bg-slate-200 rounded-lg appearance-none cursor-pointer accent-blue-600">
+                        </div>
+                        <div>
+                            <div class="flex justify-between text-xs text-slate-600 mb-1">
+                                <span>彩色鉛筆飽和度 (Color)：</span>
+                                <span id="colorVal" class="font-mono font-semibold text-blue-600">110%</span>
+                            </div>
+                            <input type="range" id="colorSlider" min="50" max="180" value="110" class="w-full h-1.5 bg-slate-200 rounded-lg appearance-none cursor-pointer accent-blue-600">
+                        </div>
+                    </div>
+                </div>
+
+                <!-- 模式 B：雲端 AI 設定區塊 (預設隱藏) -->
+                <div id="aiConfigPanel" class="hidden mb-6 p-4 bg-white rounded-2xl border border-slate-200 text-left space-y-3">
                     <div class="flex items-center justify-between">
                         <label for="apiKeyInput" class="text-xs font-semibold text-slate-700 flex items-center space-x-1.5">
                             <i class="fa-solid fa-key text-amber-500"></i>
                             <span>Google Generative Language API Key</span>
                         </label>
-                        <span class="text-xs text-slate-400">僅儲存於您本機瀏覽器</span>
+                        <span class="text-xs text-amber-600 font-medium">需開通 Google Cloud Billing</span>
                     </div>
                     <div class="flex gap-2">
-                        <input type="password" id="apiKeyInput" placeholder="請輸入您的 Gemini / Google AI API Key..." class="flex-1 px-3 py-2 text-sm border border-slate-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 font-mono">
+                        <input type="password" id="apiKeyInput" placeholder="請輸入您開通計費的 Gemini API Key..." class="flex-1 px-3 py-2 text-sm border border-slate-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 font-mono">
                         <button id="saveKeyBtn" type="button" class="px-4 py-2 bg-slate-800 hover:bg-slate-700 text-white text-xs font-medium rounded-lg transition whitespace-nowrap">
                             儲存金鑰
                         </button>
@@ -319,12 +360,12 @@
                     <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-2 pt-2 border-t border-slate-100">
                         <label for="modelSelect" class="text-xs font-semibold text-slate-600 flex items-center space-x-1">
                             <i class="fa-solid fa-cube text-blue-500"></i>
-                            <span>圖像生成模型 (Gemini 原生圖像引擎)：</span>
+                            <span>原生圖像引擎：</span>
                         </label>
                         <select id="modelSelect" class="text-xs border border-slate-300 rounded-lg px-2.5 py-1.5 bg-slate-50 font-medium text-slate-700 focus:outline-none focus:ring-2 focus:ring-blue-500">
-                            <option value="gemini-nano-banana-2.1" selected>Nano Banana 2.1 (gemini-nano-banana-2.1, 推薦預設)</option>
-                            <option value="gemini-3-pro-image">Nano Banana Pro (gemini-3-pro-image, 高畫質)</option>
-                            <option value="gemini-3.1-flash-lite-image">Nano Banana 2 Lite (gemini-3.1-flash-lite-image, 極速輕量)</option>
+                            <option value="gemini-nano-banana-2.1" selected>Nano Banana 2.1 (gemini-nano-banana-2.1)</option>
+                            <option value="gemini-3-pro-image">Nano Banana Pro (gemini-3-pro-image)</option>
+                            <option value="gemini-3.1-flash-lite-image">Nano Banana 2 Lite (gemini-3.1-flash-lite-image)</option>
                         </select>
                     </div>
                 </div>
@@ -363,7 +404,13 @@
 
                 <!-- 生成結果輸出區 -->
                 <div id="sketchOutputContainer" class="hidden mt-8 pt-8 border-t border-slate-200">
-                    <span class="text-xs font-bold text-slate-500 uppercase tracking-wider block text-center mb-4">生成結果展示</span>
+                    <div class="flex items-center justify-between mb-4">
+                        <span class="text-xs font-bold text-slate-500 uppercase tracking-wider">彩色鉛筆素描作品</span>
+                        <a id="downloadBtn" href="#" download="colored-pencil-sketch.jpg" class="inline-flex items-center space-x-1.5 px-3 py-1.5 bg-slate-800 hover:bg-slate-700 text-white rounded-lg text-xs font-medium transition shadow-sm">
+                            <i class="fa-solid fa-download"></i>
+                            <span>下載作品</span>
+                        </a>
+                    </div>
                     <div id="sketchOutput" class="flex flex-col items-center justify-center">
                         <!-- 動態插入 generated img -->
                     </div>
@@ -519,24 +566,56 @@ flowchart TD
         const loadingContainer = document.getElementById('loadingContainer');
         const sketchOutputContainer = document.getElementById('sketchOutputContainer');
         const sketchOutput = document.getElementById('sketchOutput');
+        const downloadBtn = document.getElementById('downloadBtn');
         const messageBox = document.getElementById('message-box');
         const apiKeyInput = document.getElementById('apiKeyInput');
         const saveKeyBtn = document.getElementById('saveKeyBtn');
         const modelSelect = document.getElementById('modelSelect');
+
+        // 雙軌引擎切換元素
+        const engineLocalTab = document.getElementById('engineLocalTab');
+        const engineAiTab = document.getElementById('engineAiTab');
+        const localConfigPanel = document.getElementById('localConfigPanel');
+        const aiConfigPanel = document.getElementById('aiConfigPanel');
+        const strokeSlider = document.getElementById('strokeSlider');
+        const strokeVal = document.getElementById('strokeVal');
+        const colorSlider = document.getElementById('colorSlider');
+        const colorVal = document.getElementById('colorVal');
+
+        let currentEngine = 'local'; // 'local' | 'ai'
+
+        // 雙軌 Tab 切換邏輯
+        engineLocalTab.addEventListener('click', () => {
+            currentEngine = 'local';
+            engineLocalTab.className = "flex-1 py-2.5 px-4 rounded-xl bg-white text-blue-600 shadow-sm transition flex items-center justify-center space-x-2";
+            engineAiTab.className = "flex-1 py-2.5 px-4 rounded-xl text-slate-600 hover:text-slate-900 transition flex items-center justify-center space-x-2";
+            localConfigPanel.classList.remove('hidden');
+            aiConfigPanel.classList.add('hidden');
+            hideMessage();
+        });
+
+        engineAiTab.addEventListener('click', () => {
+            currentEngine = 'ai';
+            engineAiTab.className = "flex-1 py-2.5 px-4 rounded-xl bg-white text-blue-600 shadow-sm transition flex items-center justify-center space-x-2";
+            engineLocalTab.className = "flex-1 py-2.5 px-4 rounded-xl text-slate-600 hover:text-slate-900 transition flex items-center justify-center space-x-2";
+            aiConfigPanel.classList.remove('hidden');
+            localConfigPanel.classList.add('hidden');
+            hideMessage();
+        });
+
+        // 筆觸與飽和度拉桿即時數值連動
+        strokeSlider.addEventListener('input', (e) => strokeVal.textContent = e.target.value);
+        colorSlider.addEventListener('input', (e) => colorVal.textContent = `${e.target.value}%`);
 
         const STORAGE_KEY = 'aapapp_gemini_api_key';
         const MODEL_STORAGE_KEY = 'aapapp_gemini_model';
 
         // 載入暫存之 API Key 與 Model
         const savedKey = localStorage.getItem(STORAGE_KEY);
-        if (savedKey) {
-            apiKeyInput.value = savedKey;
-        }
+        if (savedKey) apiKeyInput.value = savedKey;
 
         const savedModel = localStorage.getItem(MODEL_STORAGE_KEY);
-        if (savedModel && modelSelect) {
-            modelSelect.value = savedModel;
-        }
+        if (savedModel && modelSelect) modelSelect.value = savedModel;
         if (modelSelect) {
             modelSelect.addEventListener('change', () => {
                 localStorage.setItem(MODEL_STORAGE_KEY, modelSelect.value);
@@ -613,7 +692,142 @@ flowchart TD
             reader.readAsDataURL(file);
         }
 
-        // 前端壓縮圖片
+        // ==========================================
+        // 【本機演算法】高速 Box Blur（O(N) 階層平滑）
+        // ==========================================
+        function fastBoxBlur(src, w, h, radius) {
+            const r = Math.max(1, Math.round(radius));
+            const size = w * h;
+            const temp = new Uint8Array(size);
+            const dst = new Uint8Array(size);
+
+            // 水平通道
+            for (let y = 0; y < h; y++) {
+                const rowOffset = y * w;
+                let sum = 0;
+                const windowSize = r * 2 + 1;
+
+                for (let i = -r; i <= r; i++) {
+                    const x = Math.min(w - 1, Math.max(0, i));
+                    sum += src[rowOffset + x];
+                }
+
+                for (let x = 0; x < w; x++) {
+                    temp[rowOffset + x] = Math.round(sum / windowSize);
+                    const x1 = Math.max(0, x - r);
+                    const x2 = Math.min(w - 1, x + r + 1);
+                    sum += src[rowOffset + x2] - src[rowOffset + x1];
+                }
+            }
+
+            // 垂直通道
+            for (let x = 0; x < w; x++) {
+                let sum = 0;
+                const windowSize = r * 2 + 1;
+
+                for (let i = -r; i <= r; i++) {
+                    const y = Math.min(h - 1, Math.max(0, i));
+                    sum += temp[y * w + x];
+                }
+
+                for (let y = 0; y < h; y++) {
+                    dst[y * w + x] = Math.round(sum / windowSize);
+                    const y1 = Math.max(0, y - r);
+                    const y2 = Math.min(h - 1, y + r + 1);
+                    sum += temp[y2 * w + x] - temp[y1 * w + x];
+                }
+            }
+            return dst;
+        }
+
+        // ==========================================
+        // 【本機演算法】彩色鉛筆手繪素描渲染核心
+        // ==========================================
+        function generateLocalPencilSketch(sourceImg, blurRadius = 6, saturationPercent = 110) {
+            const canvas = document.createElement('canvas');
+            let width = sourceImg.naturalWidth || sourceImg.width;
+            let height = sourceImg.naturalHeight || sourceImg.height;
+
+            const maxDim = 1200;
+            if (width > maxDim || height > maxDim) {
+                if (width > height) {
+                    height = Math.round(height * (maxDim / width));
+                    width = maxDim;
+                } else {
+                    width = Math.round(width * (maxDim / height));
+                    height = maxDim;
+                }
+            }
+
+            canvas.width = width;
+            canvas.height = height;
+            const ctx = canvas.getContext('2d');
+            ctx.drawImage(sourceImg, 0, 0, width, height);
+
+            const origData = ctx.getImageData(0, 0, width, height);
+            const origPixels = origData.data;
+
+            const gray = new Uint8Array(width * height);
+            const inverted = new Uint8Array(width * height);
+
+            for (let i = 0; i < origPixels.length; i += 4) {
+                const idx = i / 4;
+                const g = Math.round(0.299 * origPixels[i] + 0.587 * origPixels[i + 1] + 0.114 * origPixels[i + 2]);
+                gray[idx] = g;
+                inverted[idx] = 255 - g;
+            }
+
+            // 雙次 Box Blur 逼近高斯平滑
+            const pass1 = fastBoxBlur(inverted, width, height, blurRadius);
+            const blurred = fastBoxBlur(pass1, width, height, blurRadius);
+
+            // Color Dodge 顏色減淡混合
+            const sketch = new Uint8Array(width * height);
+            for (let i = 0; i < sketch.length; i++) {
+                const base = gray[i];
+                const top = blurred[i];
+                if (top >= 255) {
+                    sketch[i] = 255;
+                } else {
+                    const val = (base * 255) / (255 - top);
+                    sketch[i] = val > 255 ? 255 : val;
+                }
+            }
+
+            // 色鉛筆手繪紋理與色彩融合
+            const outData = ctx.createImageData(width, height);
+            const out = outData.data;
+            const satFactor = saturationPercent / 100;
+
+            for (let i = 0; i < origPixels.length; i += 4) {
+                const idx = i / 4;
+                const s = sketch[idx] / 255; // 0=深色筆觸，1=紙張留白
+
+                // 隨機細微顆粒（紙張素描紋理感）
+                const grain = (Math.random() - 0.5) * 6;
+
+                let r = origPixels[i];
+                let g = origPixels[i + 1];
+                let b = origPixels[i + 2];
+
+                if (satFactor !== 1.0) {
+                    const gVal = 0.299 * r + 0.587 * g + 0.114 * b;
+                    r = Math.min(255, Math.max(0, gVal + (r - gVal) * satFactor));
+                    g = Math.min(255, Math.max(0, gVal + (g - gVal) * satFactor));
+                    b = Math.min(255, Math.max(0, gVal + (b - gVal) * satFactor));
+                }
+
+                out[i]     = Math.min(255, Math.max(0, Math.round(r * s + grain)));
+                out[i + 1] = Math.min(255, Math.max(0, Math.round(g * s + grain)));
+                out[i + 2] = Math.min(255, Math.max(0, Math.round(b * s + grain)));
+                out[i + 3] = 255;
+            }
+
+            ctx.putImageData(outData, 0, 0);
+            return canvas.toDataURL('image/jpeg', 0.92);
+        }
+
+        // 前端壓縮圖片（供雲端 AI 傳輸用）
         function compressAndResizeImage(file, maxWidth = 1024, quality = 0.8) {
             return new Promise((resolve, reject) => {
                 const reader = new FileReader();
@@ -646,30 +860,61 @@ flowchart TD
             });
         }
 
-        // 執行生成素描
+        // ==========================================
+        // 觸發生成按鈕
+        // ==========================================
         generateSketchBtn.addEventListener('click', async () => {
             hideMessage();
             sketchOutput.innerHTML = '';
             sketchOutputContainer.classList.add('hidden');
             const imageFile = imageUpload.files[0];
 
-            if (!imageFile) {
+            if (!imageFile && !imagePreview.src) {
                 showMessage("請先選取或上傳一張照片。", "error");
                 return;
             }
 
-            const currentApiKey = apiKeyInput.value.trim() || localStorage.getItem(STORAGE_KEY);
-            if (!currentApiKey) {
-                showMessage("請在上方欄位輸入您的 Google Generative Language API Key。", "error");
-                apiKeyInput.focus();
-                return;
-            }
-
-            const selectedModel = modelSelect ? modelSelect.value : 'gemini-nano-banana-2.1';
             loadingContainer.classList.remove('hidden');
 
             try {
+                // ------------------------------------------
+                // 模式 A：本機免金鑰即時素描 (純前端 Canvas)
+                // ------------------------------------------
+                if (currentEngine === 'local') {
+                    // 等候畫面渲染更新
+                    await new Promise(r => setTimeout(r, 60));
+
+                    const radius = parseInt(strokeSlider.value, 10) || 6;
+                    const sat = parseInt(colorSlider.value, 10) || 110;
+                    const sketchDataUrl = generateLocalPencilSketch(imagePreview, radius, sat);
+
+                    const imgElement = document.createElement('img');
+                    imgElement.src = sketchDataUrl;
+                    imgElement.alt = "本機彩色鉛筆素描結果";
+                    imgElement.className = "max-h-96 rounded-2xl shadow-xl border border-slate-200 object-contain";
+                    sketchOutput.appendChild(imgElement);
+
+                    downloadBtn.href = sketchDataUrl;
+                    downloadBtn.download = `pencil-sketch-${Date.now()}.jpg`;
+
+                    sketchOutputContainer.classList.remove('hidden');
+                    showMessage("🎉 本機彩色鉛筆素描已即時生成完畢！（免金鑰・完全免費）", "success");
+                    return;
+                }
+
+                // ------------------------------------------
+                // 模式 B：雲端 Gemini 原生圖像 AI
+                // ------------------------------------------
+                const currentApiKey = apiKeyInput.value.trim() || localStorage.getItem(STORAGE_KEY);
+                if (!currentApiKey) {
+                    showMessage("請在上方欄位輸入您已開通計費的 Google Generative Language API Key。", "error");
+                    apiKeyInput.focus();
+                    return;
+                }
+
+                const selectedModel = modelSelect ? modelSelect.value : 'gemini-nano-banana-2.1';
                 const base64ImageData = await compressAndResizeImage(imageFile, 1024, 0.8);
+
                 if (!base64ImageData) {
                     showMessage("無法處理圖片數據。", "error");
                     return;
@@ -677,24 +922,14 @@ flowchart TD
 
                 const prompt = "Please convert the uploaded person or object into a detailed, artistic color pencil sketch. Emphasize authentic colored pencil texture, visible pencil strokes, fine hatching, and hand-drawn aesthetics on textured sketch paper.";
 
-                // 使用 Interactions API 呼叫 Gemini 原生圖像模型 (Nano Banana 系列)
                 const apiUrl = `https://generativelanguage.googleapis.com/v1beta/interactions?key=${encodeURIComponent(currentApiKey)}`;
                 const payload = {
                     model: selectedModel,
                     input: [
-                        {
-                            type: "text",
-                            text: prompt
-                        },
-                        {
-                            type: "image",
-                            data: base64ImageData,
-                            mime_type: "image/jpeg"
-                        }
+                        { type: "text", text: prompt },
+                        { type: "image", data: base64ImageData, mime_type: "image/jpeg" }
                     ],
-                    response_format: {
-                        type: "image"
-                    }
+                    response_format: { type: "image" }
                 };
 
                 const response = await fetch(apiUrl, {
@@ -715,19 +950,14 @@ flowchart TD
                 }
 
                 const result = await response.json();
-                console.log("Gemini API Response:", result);
-
-                // 提取生成影像 (相容 output_image、steps.model_output、candidates 等回傳結構)
                 let imageBase64 = null;
                 let mimeType = 'image/png';
 
-                // 1. 檢查 Interactions API 頂層 output_image
                 if (result.output_image?.data) {
                     imageBase64 = result.output_image.data;
                     mimeType = result.output_image.mime_type || mimeType;
                 }
 
-                // 2. 檢查 steps 中的 model_output
                 if (!imageBase64 && Array.isArray(result.steps)) {
                     for (const step of result.steps) {
                         if (step.type === 'model_output' && Array.isArray(step.content)) {
@@ -743,7 +973,6 @@ flowchart TD
                     }
                 }
 
-                // 3. 備援檢查傳統 candidates
                 if (!imageBase64 && result.candidates?.[0]?.content?.parts) {
                     for (const part of result.candidates[0].content.parts) {
                         if (part.inline_data?.data || part.inlineData?.data) {
@@ -761,14 +990,18 @@ flowchart TD
                     imgElement.alt = "彩色鉛筆素描生成結果";
                     imgElement.className = "max-h-96 rounded-2xl shadow-xl border border-slate-200 object-contain";
                     sketchOutput.appendChild(imgElement);
+
+                    downloadBtn.href = imageUrl;
+                    downloadBtn.download = `ai-sketch-${Date.now()}.png`;
+
                     sketchOutputContainer.classList.remove('hidden');
                     showMessage(`彩色鉛筆素描圖片已成功生成！(使用模型: ${selectedModel})`, "success");
                 } else {
-                    showMessage("API 呼叫成功，但未返回可解析的圖像數據。請檢查控制台日誌以取得詳細結構。", "error");
+                    showMessage("API 呼叫成功，但未返回可解析的圖像數據。", "error");
                 }
             } catch (err) {
                 console.error("生成過程中發生錯誤:", err);
-                showMessage(`圖片生成過程中發生錯誤: ${err.message}`, "error");
+                showMessage(`生成過程中發生錯誤: ${err.message}`, "error");
             } finally {
                 loadingContainer.classList.add('hidden');
             }
