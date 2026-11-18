@@ -1,135 +1,596 @@
 <!DOCTYPE html>
-<html lang="zh-TW">
+<html lang="zh-TW" class="scroll-smooth">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>彩色鉛筆素描</title>
+    <title>aapAPP | 專業工程與 AI 技術展示首頁</title>
+    <!-- Tailwind CSS CDN -->
     <script src="https://cdn.tailwindcss.com"></script>
+    <!-- Font Awesome 圖示 -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <!-- Mermaid.js 即時圖表渲染 -->
+    <script type="module">
+        import mermaid from 'https://cdn.jsdelivr.net/npm/mermaid@11/dist/mermaid.esm.min.mjs';
+        mermaid.initialize({ startOnLoad: true, theme: 'neutral' });
+    </script>
     <style>
-        body {
-            font-family: 'Inter', sans-serif;
-            background-color: #f0f2f5;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            min-height: 100vh;
-            margin: 0;
+        .gradient-bg {
+            background: linear-gradient(135deg, #1e293b 0%, #0f172a 100%);
         }
-        .container {
-            background-color: white;
-            padding: 2rem;
-            border-radius: 1.5rem;
-            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.1);
-            text-align: center;
-            max-width: 90%;
-            width: 500px;
+        .card-hover {
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+        .card-hover:hover {
+            transform: translateY(-4px);
+            box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.1), 0 8px 10px -6px rgba(0, 0, 0, 0.1);
         }
         .loading-spinner {
-            border: 4px solid rgba(0, 0, 0, 0.1);
-            border-top: 4px solid #3498db;
+            border: 4px solid rgba(255, 255, 255, 0.2);
+            border-top: 4px solid #3b82f6;
             border-radius: 50%;
-            width: 40px;
-            height: 40px;
+            width: 36px;
+            height: 36px;
             animation: spin 1s linear infinite;
-            margin: 2rem auto;
-            display: none; /* Hidden by default */
         }
         @keyframes spin {
             0% { transform: rotate(0deg); }
             100% { transform: rotate(360deg); }
         }
-        .image-container {
-            margin-top: 1.5rem;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            min-height: 200px; /* Minimum height for better loading experience */
-        }
-        .image-container img {
-            max-width: 100%;
-            border-radius: 1rem;
-            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.08);
-        }
-        .message-box {
-            background-color: #e0f2f7;
-            border: 1px solid #b3e5fc;
-            color: #01579b;
-            padding: 1rem;
-            border-radius: 0.75rem;
-            margin-bottom: 1rem;
-            display: none; /* Hidden by default */
-        }
-        .preview-image {
-            max-width: 150px; /* 預覽圖片大小 */
-            max-height: 150px;
-            border-radius: 0.5rem;
-            margin: 1rem auto;
-            display: block;
-            border: 1px solid #ddd;
-        }
     </style>
 </head>
-<body>
-    <div class="container">
-        <h1 class="text-3xl font-bold text-gray-800 mb-6">彩色鉛筆素描圖片生成器</h1>
-        <div id="message-box" class="message-box"></div>
-        <input type="file" id="imageUpload" accept="image/*" class="my-4 p-2 border rounded-md w-full">
-        <img id="imagePreview" class="preview-image" src="" alt="圖片預覽" style="display: none;">
-        <button id="generateSketchBtn" class="bg-blue-500 hover:bg-blue-600 text-white font-semibold py-3 px-6 rounded-full shadow-lg transition duration-300 ease-in-out transform hover:scale-105">
-            生成彩色鉛筆素描
-        </button>
-        <div id="loadingSpinner" class="loading-spinner"></div>
-        <div id="sketchOutput" class="image-container">
+<body class="bg-slate-50 text-slate-800 flex flex-col min-h-screen">
+
+    <!-- 頂部導航列 -->
+    <header class="sticky top-0 z-50 bg-white/90 backdrop-blur-md border-b border-slate-200">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 h-16 flex items-center justify-between">
+            <div class="flex items-center space-x-3">
+                <img src="Albert1M-2.png" alt="Avatar" class="w-10 h-10 rounded-full border-2 border-blue-500 shadow-sm object-cover">
+                <div>
+                    <span class="font-bold text-lg text-slate-900 tracking-tight">aapAPP</span>
+                    <span class="hidden sm:inline-block ml-2 text-xs font-semibold px-2 py-0.5 bg-blue-100 text-blue-800 rounded">技術作品集</span>
+                </div>
             </div>
-    </div>
+            <nav class="flex items-center space-x-1 sm:space-x-4 text-sm font-medium text-slate-600">
+                <a href="#about" class="px-3 py-2 rounded-lg hover:text-blue-600 hover:bg-slate-100 transition">關於</a>
+                <a href="#projects" class="px-3 py-2 rounded-lg hover:text-blue-600 hover:bg-slate-100 transition">專案清單</a>
+                <a href="#ai-tool" class="px-3 py-2 rounded-lg hover:text-blue-600 hover:bg-slate-100 transition">AI 工具</a>
+                <a href="#gallery" class="px-3 py-2 rounded-lg hover:text-blue-600 hover:bg-slate-100 transition">作品畫廊</a>
+                <a href="#architecture" class="px-3 py-2 rounded-lg hover:text-blue-600 hover:bg-slate-100 transition">架構流程</a>
+            </nav>
+        </div>
+    </header>
+
+    <!-- 主區塊：自我介紹 & Hero -->
+    <section id="about" class="gradient-bg text-white py-16 sm:py-24">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="grid grid-cols-1 md:grid-cols-12 gap-8 items-center">
+                <div class="md:col-span-8 space-y-6">
+                    <div class="inline-flex items-center space-x-2 px-3 py-1 rounded-full bg-blue-500/20 text-blue-300 text-sm border border-blue-500/30">
+                        <i class="fa-solid fa-microchip"></i>
+                        <span>工控自動化測試 × 儀器通訊 × AI 應用</span>
+                    </div>
+                    <h1 class="text-3xl sm:text-5xl font-extrabold tracking-tight leading-tight">
+                        結合自動化量測控制<br>與現代智慧視覺技術
+                    </h1>
+                    <p class="text-slate-300 text-base sm:text-lg leading-relaxed max-w-2xl">
+                        專注於儀器自動化量測系統整合、SCPI/RS232/藍芽通訊協定開發、LabVIEW 狀態機架構設計，並積極探索 Generative AI 與圖像風格化演算法之實務整合應用。
+                    </p>
+                    <div class="flex flex-wrap gap-2 pt-2">
+                        <span class="px-3 py-1 bg-slate-800/80 rounded-md text-xs font-mono border border-slate-700 text-slate-300">LabVIEW</span>
+                        <span class="px-3 py-1 bg-slate-800/80 rounded-md text-xs font-mono border border-slate-700 text-slate-300">SCPI / RS232 / BLE</span>
+                        <span class="px-3 py-1 bg-slate-800/80 rounded-md text-xs font-mono border border-slate-700 text-slate-300">Keysight / Chroma 儀器</span>
+                        <span class="px-3 py-1 bg-slate-800/80 rounded-md text-xs font-mono border border-slate-700 text-slate-300">Generative AI</span>
+                        <span class="px-3 py-1 bg-slate-800/80 rounded-md text-xs font-mono border border-slate-700 text-slate-300">Mermaid 架構視覺化</span>
+                    </div>
+                    <div class="pt-4 flex flex-wrap gap-4">
+                        <a href="#projects" class="inline-flex items-center space-x-2 px-6 py-3 rounded-lg bg-blue-600 hover:bg-blue-500 text-white font-medium shadow-lg shadow-blue-600/30 transition">
+                            <span>瀏覽專案清單</span>
+                            <i class="fa-solid fa-arrow-down text-sm"></i>
+                        </a>
+                        <a href="#ai-tool" class="inline-flex items-center space-x-2 px-6 py-3 rounded-lg bg-slate-800 hover:bg-slate-700 text-slate-200 font-medium border border-slate-700 transition">
+                            <i class="fa-solid fa-wand-magic-sparkles text-amber-400"></i>
+                            <span>體驗 AI 彩色素描</span>
+                        </a>
+                    </div>
+                </div>
+                <div class="md:col-span-4 flex justify-center">
+                    <div class="relative group">
+                        <div class="absolute -inset-1 bg-gradient-to-r from-blue-600 to-indigo-600 rounded-2xl blur opacity-70 group-hover:opacity-100 transition duration-500"></div>
+                        <img src="Albert1M-2.png" alt="Profile" class="relative w-64 h-64 object-cover rounded-2xl shadow-2xl border-2 border-slate-700/50">
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- 專案清單區塊 -->
+    <section id="projects" class="py-16 sm:py-20 bg-slate-50 border-b border-slate-200">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="text-center max-w-3xl mx-auto mb-14">
+                <h2 class="text-3xl font-bold text-slate-900 tracking-tight">精選專案與技術架構清單</h2>
+                <p class="mt-3 text-slate-600">涵蓋工業級自動化測試系統、通訊協議實作、AI 視覺運算到雲端 API 介接的完整實踐。</p>
+            </div>
+
+            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+                <!-- 專案卡片 1 -->
+                <div class="bg-white rounded-2xl border border-slate-200 shadow-sm p-6 flex flex-col justify-between card-hover">
+                    <div>
+                        <div class="w-12 h-12 rounded-xl bg-blue-50 text-blue-600 flex items-center justify-center text-xl mb-5">
+                            <i class="fa-solid fa-gauge-high"></i>
+                        </div>
+                        <div class="flex items-center space-x-2 mb-2">
+                            <span class="text-xs font-semibold px-2 py-0.5 bg-emerald-100 text-emerald-800 rounded">實測運作中</span>
+                            <span class="text-xs text-slate-500 font-mono">v2.1.10q</span>
+                        </div>
+                        <h3 class="text-xl font-bold text-slate-900 mb-2">多設備工控自動化測試系統</h3>
+                        <p class="text-slate-600 text-sm leading-relaxed mb-4">
+                            整合 Keysight N8951A 高功率直流電源、DSP80-360WE、繼電器板（Relay Board）與電子負載。支援異常中斷自動重置保護、Step-by-Step 單步調試及 Line 自動完成通知。
+                        </p>
+                    </div>
+                    <div>
+                        <div class="flex flex-wrap gap-1.5 pt-3 border-t border-slate-100 mb-4">
+                            <span class="px-2 py-0.5 bg-slate-100 text-slate-600 rounded text-xs">LabVIEW</span>
+                            <span class="px-2 py-0.5 bg-slate-100 text-slate-600 rounded text-xs">SCPI</span>
+                            <span class="px-2 py-0.5 bg-slate-100 text-slate-600 rounded text-xs">自動化量測</span>
+                            <span class="px-2 py-0.5 bg-slate-100 text-slate-600 rounded text-xs">安全性重置</span>
+                        </div>
+                        <a href="#architecture" class="text-sm font-semibold text-blue-600 hover:text-blue-800 inline-flex items-center space-x-1">
+                            <span>檢視控制流程圖</span>
+                            <i class="fa-solid fa-angle-right text-xs"></i>
+                        </a>
+                    </div>
+                </div>
+
+                <!-- 專案卡片 2 -->
+                <div class="bg-white rounded-2xl border border-slate-200 shadow-sm p-6 flex flex-col justify-between card-hover">
+                    <div>
+                        <div class="w-12 h-12 rounded-xl bg-indigo-50 text-indigo-600 flex items-center justify-center text-xl mb-5">
+                            <i class="fa-solid fa-paintbrush"></i>
+                        </div>
+                        <div class="flex items-center space-x-2 mb-2">
+                            <span class="text-xs font-semibold px-2 py-0.5 bg-indigo-100 text-indigo-800 rounded">互動應用</span>
+                            <span class="text-xs text-slate-500 font-mono">Web + AI</span>
+                        </div>
+                        <h3 class="text-xl font-bold text-slate-900 mb-2">AI 彩色鉛筆風格素描生成器</h3>
+                        <p class="text-slate-600 text-sm leading-relaxed mb-4">
+                            運用生成式 AI 演算法，將真實人像與照片轉換為細膩之彩色鉛筆手繪素描。具備前端 Canvas 智慧壓縮最佳化、檔案預覽與高解析度筆觸渲染。
+                        </p>
+                    </div>
+                    <div>
+                        <div class="flex flex-wrap gap-1.5 pt-3 border-t border-slate-100 mb-4">
+                            <span class="px-2 py-0.5 bg-slate-100 text-slate-600 rounded text-xs">Gemini API</span>
+                            <span class="px-2 py-0.5 bg-slate-100 text-slate-600 rounded text-xs">Canvas 壓縮</span>
+                            <span class="px-2 py-0.5 bg-slate-100 text-slate-600 rounded text-xs">風格轉換</span>
+                            <span class="px-2 py-0.5 bg-slate-100 text-slate-600 rounded text-xs">Tailwind CSS</span>
+                        </div>
+                        <a href="#ai-tool" class="text-sm font-semibold text-blue-600 hover:text-blue-800 inline-flex items-center space-x-1">
+                            <span>前往在線體驗</span>
+                            <i class="fa-solid fa-angle-right text-xs"></i>
+                        </a>
+                    </div>
+                </div>
+
+                <!-- 專案卡片 3 -->
+                <div class="bg-white rounded-2xl border border-slate-200 shadow-sm p-6 flex flex-col justify-between card-hover">
+                    <div>
+                        <div class="w-12 h-12 rounded-xl bg-amber-50 text-amber-600 flex items-center justify-center text-xl mb-5">
+                            <i class="fa-solid fa-network-wired"></i>
+                        </div>
+                        <div class="flex items-center space-x-2 mb-2">
+                            <span class="text-xs font-semibold px-2 py-0.5 bg-amber-100 text-amber-800 rounded">通訊協定</span>
+                            <span class="text-xs text-slate-500 font-mono">Hardware IO</span>
+                        </div>
+                        <h3 class="text-xl font-bold text-slate-900 mb-2">藍芽與逆變器（Inverter）通訊輪詢模組</h3>
+                        <p class="text-slate-600 text-sm leading-relaxed mb-4">
+                            實作藍芽通訊交握協定、`*IDN?` 設備狀態查詢與逆變器電源暫停判斷邏輯。針對引腳電位（P1_2、P3_5）狀態進行精準控制與故障狀態自動退出機制。
+                        </p>
+                    </div>
+                    <div>
+                        <div class="flex flex-wrap gap-1.5 pt-3 border-t border-slate-100 mb-4">
+                            <span class="px-2 py-0.5 bg-slate-100 text-slate-600 rounded text-xs">Bluetooth</span>
+                            <span class="px-2 py-0.5 bg-slate-100 text-slate-600 rounded text-xs">Inverter</span>
+                            <span class="px-2 py-0.5 bg-slate-100 text-slate-600 rounded text-xs">狀態機 (QMH)</span>
+                            <span class="px-2 py-0.5 bg-slate-100 text-slate-600 rounded text-xs">IO 控制</span>
+                        </div>
+                        <a href="#architecture" class="text-sm font-semibold text-blue-600 hover:text-blue-800 inline-flex items-center space-x-1">
+                            <span>檢視時序流程</span>
+                            <i class="fa-solid fa-angle-right text-xs"></i>
+                        </a>
+                    </div>
+                </div>
+
+                <!-- 專案卡片 4 -->
+                <div class="bg-white rounded-2xl border border-slate-200 shadow-sm p-6 flex flex-col justify-between card-hover">
+                    <div>
+                        <div class="w-12 h-12 rounded-xl bg-sky-50 text-sky-600 flex items-center justify-center text-xl mb-5">
+                            <i class="fa-solid fa-cloud-arrow-up"></i>
+                        </div>
+                        <div class="flex items-center space-x-2 mb-2">
+                            <span class="text-xs font-semibold px-2 py-0.5 bg-sky-100 text-sky-800 rounded">API 整合</span>
+                            <span class="text-xs text-slate-500 font-mono">LabVIEW VI</span>
+                        </div>
+                        <h3 class="text-xl font-bold text-slate-900 mb-2">REST API (GitHub) 通訊模組</h3>
+                        <p class="text-slate-600 text-sm leading-relaxed mb-4">
+                            封裝 GitHub REST API 於 LabVIEW（`REST API (GitHub).vi`），提供測試資料自動上傳、版本記錄同步與雲端版本備份驗證之能力。
+                        </p>
+                    </div>
+                    <div>
+                        <div class="flex flex-wrap gap-1.5 pt-3 border-t border-slate-100 mb-4">
+                            <span class="px-2 py-0.5 bg-slate-100 text-slate-600 rounded text-xs">REST API</span>
+                            <span class="px-2 py-0.5 bg-slate-100 text-slate-600 rounded text-xs">GitHub API</span>
+                            <span class="px-2 py-0.5 bg-slate-100 text-slate-600 rounded text-xs">JSON 封裝</span>
+                            <span class="px-2 py-0.5 bg-slate-100 text-slate-600 rounded text-xs">雲端串接</span>
+                        </div>
+                        <span class="text-xs text-slate-400">已整合於測試工作流中</span>
+                    </div>
+                </div>
+
+                <!-- 專案卡片 5 -->
+                <div class="bg-white rounded-2xl border border-slate-200 shadow-sm p-6 flex flex-col justify-between card-hover">
+                    <div>
+                        <div class="w-12 h-12 rounded-xl bg-purple-50 text-purple-600 flex items-center justify-center text-xl mb-5">
+                            <i class="fa-solid fa-diagram-project"></i>
+                        </div>
+                        <div class="flex items-center space-x-2 mb-2">
+                            <span class="text-xs font-semibold px-2 py-0.5 bg-purple-100 text-purple-800 rounded">架構設計</span>
+                            <span class="text-xs text-slate-500 font-mono">Mermaid.js</span>
+                        </div>
+                        <h3 class="text-xl font-bold text-slate-900 mb-2">系統架構圖形化與文件工程</h3>
+                        <p class="text-slate-600 text-sm leading-relaxed mb-4">
+                            建立 Mermaid 語法工程標準庫，涵蓋時序圖（Sequence）、狀態圖（State Diagram）、ER 圖與硬體引腳供電切換邏輯，實現程式即文件的維護理念。
+                        </p>
+                    </div>
+                    <div>
+                        <div class="flex flex-wrap gap-1.5 pt-3 border-t border-slate-100 mb-4">
+                            <span class="px-2 py-0.5 bg-slate-100 text-slate-600 rounded text-xs">Mermaid</span>
+                            <span class="px-2 py-0.5 bg-slate-100 text-slate-600 rounded text-xs">架構視覺化</span>
+                            <span class="px-2 py-0.5 bg-slate-100 text-slate-600 rounded text-xs">Markdown</span>
+                            <span class="px-2 py-0.5 bg-slate-100 text-slate-600 rounded text-xs">文件標準化</span>
+                        </div>
+                        <a href="#architecture" class="text-sm font-semibold text-blue-600 hover:text-blue-800 inline-flex items-center space-x-1">
+                            <span>查看標準圖表</span>
+                            <i class="fa-solid fa-angle-right text-xs"></i>
+                        </a>
+                    </div>
+                </div>
+
+                <!-- 專案卡片 6 -->
+                <div class="bg-white rounded-2xl border border-slate-200 shadow-sm p-6 flex flex-col justify-between card-hover">
+                    <div>
+                        <div class="w-12 h-12 rounded-xl bg-teal-50 text-teal-600 flex items-center justify-center text-xl mb-5">
+                            <i class="fa-solid fa-server"></i>
+                        </div>
+                        <div class="flex items-center space-x-2 mb-2">
+                            <span class="text-xs font-semibold px-2 py-0.5 bg-teal-100 text-teal-800 rounded">資料備份</span>
+                            <span class="text-xs text-slate-500 font-mono">NAS Storage</span>
+                        </div>
+                        <h3 class="text-xl font-bold text-slate-900 mb-2">自動化測試資料與腳本儲存管理架構</h3>
+                        <p class="text-slate-600 text-sm leading-relaxed mb-4">
+                            規劃 NAS（AS4002T）中央資料儲存架構，建立依客戶與產品劃分的 Noise Data、TestScript 與設備識別表（All New DeviceIDN.tsv），保障測試資料之完整性。
+                        </p>
+                    </div>
+                    <div>
+                        <div class="flex flex-wrap gap-1.5 pt-3 border-t border-slate-100 mb-4">
+                            <span class="px-2 py-0.5 bg-slate-100 text-slate-600 rounded text-xs">NAS 儲存架構</span>
+                            <span class="px-2 py-0.5 bg-slate-100 text-slate-600 rounded text-xs">TSV 資料規格</span>
+                            <span class="px-2 py-0.5 bg-slate-100 text-slate-600 rounded text-xs">自動化歸檔</span>
+                        </div>
+                        <span class="text-xs text-slate-400">已實施於生產測試線</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- AI 彩色鉛筆素描生成器（完整保留與優化既有功能） -->
+    <section id="ai-tool" class="py-16 sm:py-20 bg-white border-b border-slate-200">
+        <div class="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="text-center max-w-2xl mx-auto mb-10">
+                <span class="inline-flex items-center space-x-1.5 px-3 py-1 rounded-full bg-blue-100 text-blue-700 text-xs font-semibold mb-3">
+                    <i class="fa-solid fa-sparkles"></i>
+                    <span>互動體驗</span>
+                </span>
+                <h2 class="text-3xl font-bold text-slate-900 tracking-tight">彩色鉛筆素描圖片生成器</h2>
+                <p class="mt-2 text-slate-600 text-sm">
+                    上傳任意照片，透過 Google Generative AI 轉換為具手繪質感的精美彩色鉛筆素描畫作。
+                </p>
+            </div>
+
+            <!-- 主控制卡片 -->
+            <div class="bg-slate-50 border border-slate-200 rounded-3xl p-6 sm:p-10 shadow-sm">
+                <!-- 訊息提示盒 -->
+                <div id="message-box" class="hidden mb-6 p-4 rounded-xl text-sm font-medium border"></div>
+
+                <!-- API Key 設定區塊（避免硬編碼資安風險，支援本地記住） -->
+                <div class="mb-6 p-4 bg-white rounded-2xl border border-slate-200 text-left">
+                    <div class="flex items-center justify-between mb-2">
+                        <label for="apiKeyInput" class="text-xs font-semibold text-slate-700 flex items-center space-x-1.5">
+                            <i class="fa-solid fa-key text-amber-500"></i>
+                            <span>Google Generative Language API Key</span>
+                        </label>
+                        <span class="text-xs text-slate-400">僅儲存於您本機瀏覽器</span>
+                    </div>
+                    <div class="flex gap-2">
+                        <input type="password" id="apiKeyInput" placeholder="請輸入您的 Gemini / Google AI API Key..." class="flex-1 px-3 py-2 text-sm border border-slate-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 font-mono">
+                        <button id="saveKeyBtn" type="button" class="px-4 py-2 bg-slate-800 hover:bg-slate-700 text-white text-xs font-medium rounded-lg transition">
+                            儲存金鑰
+                        </button>
+                    </div>
+                </div>
+
+                <!-- 檔案上傳與預覽 -->
+                <div class="space-y-4">
+                    <div class="border-2 border-dashed border-slate-300 hover:border-blue-500 bg-white rounded-2xl p-6 text-center cursor-pointer transition" id="dropZone">
+                        <input type="file" id="imageUpload" accept="image/*" class="hidden">
+                        <div class="flex flex-col items-center">
+                            <i class="fa-solid fa-cloud-arrow-up text-4xl text-slate-400 mb-3"></i>
+                            <span class="text-sm font-semibold text-slate-700">點擊上傳或拖放照片至此</span>
+                            <span class="text-xs text-slate-400 mt-1">支援 JPG, PNG, WebP（自動前端壓縮）</span>
+                        </div>
+                    </div>
+
+                    <!-- 圖片預覽 -->
+                    <div id="previewContainer" class="hidden text-center">
+                        <span class="text-xs font-semibold text-slate-500 uppercase tracking-wider block mb-2">上傳預覽</span>
+                        <img id="imagePreview" src="" alt="圖片預覽" class="max-h-56 mx-auto rounded-xl shadow-md border border-slate-200 object-contain">
+                    </div>
+
+                    <!-- 動作按鈕 -->
+                    <div class="pt-2 text-center">
+                        <button id="generateSketchBtn" class="w-full sm:w-auto px-8 py-3.5 bg-blue-600 hover:bg-blue-700 active:bg-blue-800 text-white font-semibold rounded-xl shadow-md hover:shadow-lg transition duration-200 flex items-center justify-center mx-auto space-x-2">
+                            <i class="fa-solid fa-wand-magic-sparkles"></i>
+                            <span>立即生成彩色鉛筆素描</span>
+                        </button>
+                    </div>
+                </div>
+
+                <!-- 載入指示 -->
+                <div id="loadingContainer" class="hidden my-8 text-center">
+                    <div class="loading-spinner mx-auto mb-3"></div>
+                    <p class="text-sm text-slate-600 font-medium">AI 正在細心手繪筆觸中，請稍候約 10~20 秒...</p>
+                </div>
+
+                <!-- 生成結果輸出區 -->
+                <div id="sketchOutputContainer" class="hidden mt-8 pt-8 border-t border-slate-200">
+                    <span class="text-xs font-bold text-slate-500 uppercase tracking-wider block text-center mb-4">生成結果展示</span>
+                    <div id="sketchOutput" class="flex flex-col items-center justify-center">
+                        <!-- 動態插入 generated img -->
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- 精選作品畫廊 (Gallery) -->
+    <section id="gallery" class="py-16 sm:py-20 bg-slate-50 border-b border-slate-200">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="text-center max-w-2xl mx-auto mb-12">
+                <h2 class="text-3xl font-bold text-slate-900 tracking-tight">精選色鉛筆素描畫廊</h2>
+                <p class="mt-2 text-slate-600 text-sm">收錄透過素描演算法與風格微調所生成之各類人物肖像作品。</p>
+            </div>
+
+            <div class="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-6 gap-4">
+                <div class="group relative rounded-xl overflow-hidden bg-white shadow-sm border border-slate-200 aspect-square">
+                    <img src="色鉛筆素描-14 (512x512).png" alt="素描 14" class="w-full h-full object-cover group-hover:scale-105 transition duration-300" loading="lazy">
+                    <div class="absolute inset-0 bg-slate-900/60 opacity-0 group-hover:opacity-100 transition flex items-center justify-center text-white text-xs font-semibold">
+                        色鉛筆素描 #14
+                    </div>
+                </div>
+                <div class="group relative rounded-xl overflow-hidden bg-white shadow-sm border border-slate-200 aspect-square">
+                    <img src="色鉛筆素描-20 (512x512).png" alt="素描 20" class="w-full h-full object-cover group-hover:scale-105 transition duration-300" loading="lazy">
+                    <div class="absolute inset-0 bg-slate-900/60 opacity-0 group-hover:opacity-100 transition flex items-center justify-center text-white text-xs font-semibold">
+                        色鉛筆素描 #20
+                    </div>
+                </div>
+                <div class="group relative rounded-xl overflow-hidden bg-white shadow-sm border border-slate-200 aspect-square">
+                    <img src="色鉛筆素描-1.png" alt="素描 1" class="w-full h-full object-cover group-hover:scale-105 transition duration-300" loading="lazy">
+                    <div class="absolute inset-0 bg-slate-900/60 opacity-0 group-hover:opacity-100 transition flex items-center justify-center text-white text-xs font-semibold">
+                        色鉛筆素描 #01
+                    </div>
+                </div>
+                <div class="group relative rounded-xl overflow-hidden bg-white shadow-sm border border-slate-200 aspect-square">
+                    <img src="色鉛筆素描-6.png" alt="素描 6" class="w-full h-full object-cover group-hover:scale-105 transition duration-300" loading="lazy">
+                    <div class="absolute inset-0 bg-slate-900/60 opacity-0 group-hover:opacity-100 transition flex items-center justify-center text-white text-xs font-semibold">
+                        色鉛筆素描 #06
+                    </div>
+                </div>
+                <div class="group relative rounded-xl overflow-hidden bg-white shadow-sm border border-slate-200 aspect-square">
+                    <img src="色鉛筆素描-10.png" alt="素描 10" class="w-full h-full object-cover group-hover:scale-105 transition duration-300" loading="lazy">
+                    <div class="absolute inset-0 bg-slate-900/60 opacity-0 group-hover:opacity-100 transition flex items-center justify-center text-white text-xs font-semibold">
+                        色鉛筆素描 #10
+                    </div>
+                </div>
+                <div class="group relative rounded-xl overflow-hidden bg-white shadow-sm border border-slate-200 aspect-square">
+                    <img src="色鉛筆素描-16 (1M).png" alt="素描 16" class="w-full h-full object-cover group-hover:scale-105 transition duration-300" loading="lazy">
+                    <div class="absolute inset-0 bg-slate-900/60 opacity-0 group-hover:opacity-100 transition flex items-center justify-center text-white text-xs font-semibold">
+                        色鉛筆素描 #16
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- 系統架構與流程圖 (Mermaid Visualizations) -->
+    <section id="architecture" class="py-16 sm:py-20 bg-white">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="text-center max-w-3xl mx-auto mb-14">
+                <h2 class="text-3xl font-bold text-slate-900 tracking-tight">系統架構與通訊控制流程</h2>
+                <p class="mt-3 text-slate-600">透過 Mermaid.js 直接渲染硬體交握、電源暫時停止控制判斷與異常保護機制流程圖。</p>
+            </div>
+
+            <div class="grid grid-cols-1 lg:grid-cols-2 gap-8">
+                <!-- 流程圖 1: 藍芽與 Inverter 連線狀態機 -->
+                <div class="bg-slate-50 border border-slate-200 rounded-2xl p-6 shadow-sm flex flex-col justify-between">
+                    <div>
+                        <div class="flex items-center space-x-2 mb-3">
+                            <span class="w-3 h-3 rounded-full bg-blue-500"></span>
+                            <h3 class="text-lg font-bold text-slate-900">藍芽與 Inverter 交握狀態機</h3>
+                        </div>
+                        <p class="text-xs text-slate-500 mb-4 leading-relaxed">
+                            驗證藍芽連線、`*IDN?` 設備查詢，以及雙引腳（P1_2 == 0 & P3_5 == 0）之暫時停止判斷與例外處理。
+                        </p>
+                    </div>
+                    <div class="bg-white p-4 rounded-xl border border-slate-200 overflow-x-auto flex justify-center">
+                        <div class="mermaid">
+flowchart TD
+    A{藍芽連線} -->|OK| B["[*IDN?]<br>與 Inverter 連線"]
+    A -->|NG| G[異常停止]
+    B -->|NG| C{"[暫時停止判斷]<br>P1_2 == 0 & P3_5 == 0"}
+    B -->|OK| H[正常運作<br>開始輪詢]
+    C -->|Yes| D[設定頁：按鈕設為 ON]
+    C -->|No| G
+    D --> E{"[退出暫時停止]<br>設定 P_3 = 1"}
+    E -->|Yes| B
+    E -->|No| F[等待使用者動作]
+                        </div>
+                    </div>
+                </div>
+
+                <!-- 流程圖 2: 輸出停止與外部供電重置保護 -->
+                <div class="bg-slate-50 border border-slate-200 rounded-2xl p-6 shadow-sm flex flex-col justify-between">
+                    <div>
+                        <div class="flex items-center space-x-2 mb-3">
+                            <span class="w-3 h-3 rounded-full bg-emerald-500"></span>
+                            <h3 class="text-lg font-bold text-slate-900">供電暫停與引腳復歸保護邏輯</h3>
+                        </div>
+                        <p class="text-xs text-slate-500 mb-4 leading-relaxed">
+                            針對外部供電狀態切換時 OUTOFF 與 P1_3 引腳的互鎖安全控制，確保硬體停止與重置安全。
+                        </p>
+                    </div>
+                    <div class="bg-white p-4 rounded-xl border border-slate-200 overflow-x-auto flex justify-center">
+                        <div class="mermaid">
+flowchart TD
+    B((開始輸出)) -->|暫時停止觸發| C{P1_2 == 0 ?}
+    C -->|Yes 外部供電| D["OUTOFF = 1<br>P1_3 = 0"]
+    C -->|No 未供電| E["OUTOFF = 1"]
+    D --> F(安全停止輸出)
+    E --> F
+    
+    G(恢復輸出觸發) --> H{P1_2 == 0 ?}
+    H -->|Yes 外部供電| I["OUTOFF = 0<br>P1_3 = 1"]
+    H -->|No 未供電| J["OUTOFF = 0"]
+    I --> K((正常輸出))
+    J --> K
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- 頁尾 -->
+    <footer class="bg-slate-900 text-slate-400 py-12 mt-auto">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="flex flex-col sm:flex-row items-center justify-between gap-4">
+                <div class="flex items-center space-x-3">
+                    <img src="Albert1M-2.png" alt="Avatar" class="w-8 h-8 rounded-full object-cover">
+                    <span class="text-white font-semibold tracking-wide">aapAPP (Albert)</span>
+                </div>
+                <div class="text-xs text-slate-500">
+                    © 2026 aapAPP. 專注於自動化測試、系統架構與 AI 影像應用。
+                </div>
+                <div class="flex space-x-4 text-sm">
+                    <a href="https://github.com/aapAPP" target="_blank" rel="noopener noreferrer" class="hover:text-white transition">
+                        <i class="fa-brands fa-github text-lg"></i>
+                    </a>
+                </div>
+            </div>
+        </div>
+    </footer>
+
+    <!-- AI 素描工具腳本 -->
     <script type="module">
-        // UI 元素
-        const imageUpload = document.getElementById('imageUpload'); // 圖片上傳輸入元素
-        const imagePreview = document.getElementById('imagePreview'); // 圖片預覽元素
+        const dropZone = document.getElementById('dropZone');
+        const imageUpload = document.getElementById('imageUpload');
+        const previewContainer = document.getElementById('previewContainer');
+        const imagePreview = document.getElementById('imagePreview');
         const generateSketchBtn = document.getElementById('generateSketchBtn');
-        const loadingSpinner = document.getElementById('loadingSpinner');
+        const loadingContainer = document.getElementById('loadingContainer');
+        const sketchOutputContainer = document.getElementById('sketchOutputContainer');
         const sketchOutput = document.getElementById('sketchOutput');
         const messageBox = document.getElementById('message-box');
+        const apiKeyInput = document.getElementById('apiKeyInput');
+        const saveKeyBtn = document.getElementById('saveKeyBtn');
 
-        // ⚠️ 強烈建議：將您的 API 金鑰替換為實際金鑰，不建議直接暴露在前端程式碼中。
-        // 如前所述，更安全的做法是透過後端代理或無伺服器函數來處理 API 請求。
-        const API_KEY = "AIzaSyDegIQZAzMZeiVajsStxrgWvGDMkfZ4GUg"; 
+        const STORAGE_KEY = 'aapapp_gemini_api_key';
 
-        // 顯示訊息
+        // 載入暫存之 API Key
+        const savedKey = localStorage.getItem(STORAGE_KEY);
+        if (savedKey) {
+            apiKeyInput.value = savedKey;
+        }
+
+        // 儲存 API Key
+        saveKeyBtn.addEventListener('click', () => {
+            const val = apiKeyInput.value.trim();
+            if (val) {
+                localStorage.setItem(STORAGE_KEY, val);
+                showMessage("API 金鑰已成功儲存於本地瀏覽器！", "success");
+            } else {
+                localStorage.removeItem(STORAGE_KEY);
+                showMessage("已清除儲存的 API 金鑰。", "info");
+            }
+        });
+
+        // 顯示訊息函式
         function showMessage(message, type = 'info') {
             messageBox.textContent = message;
-            messageBox.className = `message-box block ${type === 'error' ? 'bg-red-100 border-red-400 text-red-700' : 'bg-blue-100 border-blue-400 text-blue-700'}`;
+            messageBox.className = "mb-6 p-4 rounded-xl text-sm font-medium border block ";
+            if (type === 'error') {
+                messageBox.classList.add('bg-red-50', 'border-red-200', 'text-red-700');
+            } else if (type === 'success') {
+                messageBox.classList.add('bg-emerald-50', 'border-emerald-200', 'text-emerald-700');
+            } else {
+                messageBox.classList.add('bg-blue-50', 'border-blue-200', 'text-blue-700');
+            }
             messageBox.style.display = 'block';
         }
 
-        // 隱藏訊息
         function hideMessage() {
             messageBox.style.display = 'none';
         }
 
-        // 監聽圖片上傳輸入欄位的變化，以顯示預覽
-        imageUpload.addEventListener('change', function(event) {
-            const file = event.target.files[0];
-            if (file) {
-                const reader = new FileReader();
-                reader.onload = function(e) {
-                    imagePreview.src = e.target.result;
-                    imagePreview.style.display = 'block'; // 顯示預覽圖片
-                };
-                reader.readAsDataURL(file); // 讀取為 Data URL
-            } else {
-                imagePreview.src = "";
-                imagePreview.style.display = 'none'; // 隱藏預覽圖片
+        // 點擊上傳拖拉區觸發 input
+        dropZone.addEventListener('click', () => imageUpload.click());
+
+        // 拖曳上傳支援
+        dropZone.addEventListener('dragover', (e) => {
+            e.preventDefault();
+            dropZone.classList.add('border-blue-500', 'bg-blue-50/50');
+        });
+        dropZone.addEventListener('dragleave', () => {
+            dropZone.classList.remove('border-blue-500', 'bg-blue-50/50');
+        });
+        dropZone.addEventListener('drop', (e) => {
+            e.preventDefault();
+            dropZone.classList.remove('border-blue-500', 'bg-blue-50/50');
+            if (e.dataTransfer.files && e.dataTransfer.files[0]) {
+                imageUpload.files = e.dataTransfer.files;
+                handleImageSelected(e.dataTransfer.files[0]);
             }
         });
 
-        /**
-         * 壓縮和調整圖片尺寸
-         * @param {File} file - 原始圖片檔案
-         * @param {number} maxWidth - 最大寬度
-         * @param {number} quality - JPEG 壓縮品質 (0 到 1)
-         * @returns {Promise<string>} - 壓縮後的圖片的 base64 字串 (不包含 "data:image/jpeg;base64,")
-         */
+        // 檔案變更事件
+        imageUpload.addEventListener('change', function(event) {
+            const file = event.target.files[0];
+            if (file) {
+                handleImageSelected(file);
+            } else {
+                imagePreview.src = "";
+                previewContainer.classList.add('hidden');
+            }
+        });
+
+        function handleImageSelected(file) {
+            const reader = new FileReader();
+            reader.onload = function(e) {
+                imagePreview.src = e.target.result;
+                previewContainer.classList.remove('hidden');
+            };
+            reader.readAsDataURL(file);
+        }
+
+        // 前端壓縮圖片
         function compressAndResizeImage(file, maxWidth = 1024, quality = 0.8) {
             return new Promise((resolve, reject) => {
                 const reader = new FileReader();
@@ -140,7 +601,6 @@
                         let width = img.width;
                         let height = img.height;
 
-                        // 計算新的尺寸
                         if (width > maxWidth) {
                             height = Math.round(height * (maxWidth / width));
                             width = maxWidth;
@@ -152,7 +612,6 @@
                         const ctx = canvas.getContext('2d');
                         ctx.drawImage(img, 0, 0, width, height);
 
-                        // 輸出為 JPEG 格式，並移除前綴
                         const dataUrl = canvas.toDataURL('image/jpeg', quality);
                         resolve(dataUrl.split(',')[1]);
                     };
@@ -164,35 +623,37 @@
             });
         }
 
+        // 執行生成素描
         generateSketchBtn.addEventListener('click', async () => {
             hideMessage();
-            sketchOutput.innerHTML = ''; // 清空之前的圖片
-            const imageFile = imageUpload.files[0]; // 獲取使用者選擇的檔案
+            sketchOutput.innerHTML = '';
+            sketchOutputContainer.classList.add('hidden');
+            const imageFile = imageUpload.files[0];
 
             if (!imageFile) {
-                showMessage("請先選擇一張圖片。", "error");
-                return; // 如果沒有選擇檔案，則直接返回
-            }
-
-            if (!API_KEY || API_KEY === "AIzaSyDegIQZAzMZeiVajsStxrgWvGDMkfZ4GUg" || API_KEY === "AIzaSyDegIQZAzMZeiVajsStxrgWvGDMkfZ4GUg") { 
-                showMessage("請在程式碼中替換為您的 Google Generative Language API 金鑰。", "error"); 
+                showMessage("請先選取或上傳一張照片。", "error");
                 return;
             }
-            
-            loadingSpinner.style.display = 'block'; // 顯示載入指示器
+
+            const currentApiKey = apiKeyInput.value.trim() || localStorage.getItem(STORAGE_KEY);
+            if (!currentApiKey) {
+                showMessage("請在上方欄位輸入您的 Google Generative Language API Key。", "error");
+                apiKeyInput.focus();
+                return;
+            }
+
+            loadingContainer.classList.remove('hidden');
 
             try {
-                // 壓縮和調整圖片尺寸
-                const base64ImageData = await compressAndResizeImage(imageFile, 1024, 0.8); // 最大寬度1024px，品質80%
-
+                const base64ImageData = await compressAndResizeImage(imageFile, 1024, 0.8);
                 if (!base64ImageData) {
                     showMessage("無法處理圖片數據。", "error");
                     return;
                 }
 
-                const prompt = "Please generate a color pencil sketch of the person in the image. Focus on capturing the texture and style of a colored pencil drawing.";
+                const prompt = "Please generate a color pencil sketch of the subject in the uploaded photo. Focus on capturing the texture, strokes, and style of a colored pencil drawing.";
                 const payload = {
-                    instances: [{ // instances 應該是一個陣列，每個元素是一個實例對象
+                    instances: [{
                         prompt: prompt,
                         image: {
                             bytesBase64Encoded: base64ImageData
@@ -201,7 +662,7 @@
                     parameters: { "sampleCount": 1 }
                 };
 
-                const apiUrl = `https://generativelanguage.googleapis.com/v1beta/models/imagen-3.0-generate-002:predict?key=${API_KEY}`;
+                const apiUrl = `https://generativelanguage.googleapis.com/v1beta/models/imagen-3.0-generate-002:predict?key=${encodeURIComponent(currentApiKey)}`;
 
                 const response = await fetch(apiUrl, {
                     method: 'POST',
@@ -212,32 +673,32 @@
                 if (!response.ok) {
                     const errorData = await response.json();
                     console.error("API Error:", errorData);
-                    // 這裡特別處理 "Image in input is not supported for this model" 錯誤
-                    if (errorData.error?.message.includes("Image in input is not supported")) {
-                         showMessage("生成圖片失敗: 圖片格式或尺寸不支援。請嘗試較小或不同格式的圖片。", "error");
+                    if (errorData.error?.message?.includes("Image in input is not supported")) {
+                        showMessage("生成失敗：此模型目前不支援輸入直接圖生圖，請確認模型權限或改用 prompt 生成。", "error");
                     } else {
-                         showMessage(`生成圖片失敗: ${errorData.error?.message || '未知錯誤'}`, "error");
+                        showMessage(`生成失敗: ${errorData.error?.message || '未知錯誤'}`, "error");
                     }
                     return;
                 }
 
                 const result = await response.json();
-                // 根據 Generative Language API 的回應結構調整：predictions 應該是一個陣列
                 if (result.predictions && result.predictions.length > 0 && result.predictions[0].assetData?.bytesBase64Encoded) {
                     const imageUrl = `data:image/png;base64,${result.predictions[0].assetData.bytesBase64Encoded}`;
                     const imgElement = document.createElement('img');
                     imgElement.src = imageUrl;
-                    imgElement.alt = "彩色鉛筆素描";
+                    imgElement.alt = "彩色鉛筆素描生成結果";
+                    imgElement.className = "max-h-96 rounded-2xl shadow-xl border border-slate-200 object-contain";
                     sketchOutput.appendChild(imgElement);
-                    showMessage("彩色鉛筆素描圖片已成功生成！");
+                    sketchOutputContainer.classList.remove('hidden');
+                    showMessage("彩色鉛筆素描圖片已成功生成！", "success");
                 } else {
                     showMessage("未從 API 獲取到有效的圖片數據。", "error");
                 }
-            } catch (apiError) {
-                console.error("Error during image generation API call:", apiError);
-                showMessage(`圖片生成過程中發生錯誤: ${apiError.message}`, "error");
+            } catch (err) {
+                console.error("生成過程中發生錯誤:", err);
+                showMessage(`圖片生成過程中發生錯誤: ${err.message}`, "error");
             } finally {
-                loadingSpinner.style.display = 'none'; // 在 API 呼叫（成功或失敗）後隱藏載入指示器
+                loadingContainer.classList.add('hidden');
             }
         });
     </script>
