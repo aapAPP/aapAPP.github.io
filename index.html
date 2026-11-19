@@ -203,270 +203,545 @@
         </div>
     </section>
 
-    <!-- 軟體與工程專案清單區塊 -->
+    <!-- 軟體與工程專案清單區塊 (以 程式清單.xlsx 為準) -->
     <section id="projects" class="py-20 sm:py-28 bg-slate-50 border-b border-slate-200">
         <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-            <div class="text-center max-w-3xl mx-auto mb-16">
+            <div class="text-center max-w-3xl mx-auto mb-12">
                 <span class="inline-flex items-center space-x-1.5 px-3.5 py-1 rounded-full bg-blue-100 text-blue-800 text-xs font-bold tracking-wide uppercase mb-3">
-                    <i class="fa-solid fa-cubes"></i>
-                    <span>Software & Engineering Portfolio</span>
+                    <i class="fa-solid fa-list-check"></i>
+                    <span>Production Software Portfolio</span>
                 </span>
-                <h2 class="text-3xl sm:text-4xl font-extrabold text-slate-900 tracking-tight">專業軟體與系統工程矩陣</h2>
-                <p class="mt-3 text-slate-600 text-base sm:text-lg">涵蓋工業級高可靠度測控平台、硬體交握協定、純前端與雲端 AI 視覺演算到雲端 API 整合之全端實踐。</p>
+                <h2 class="text-3xl sm:text-4xl font-extrabold text-slate-900 tracking-tight">正式軟體與系統清單</h2>
+                <p class="mt-3 text-slate-600 text-base sm:text-lg">嚴格依據發行之「程式清單」收錄，涵蓋工控自動化成測、產線資料庫整合及企業營運自動化系統（共 13 套正式發行與測試中軟體）。</p>
             </div>
 
-            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
-                <!-- 軟體卡片 1 -->
-                <div class="bg-white rounded-2xl border border-slate-200/80 shadow-sm hover:border-blue-400 p-7 flex flex-col justify-between card-hover relative overflow-hidden">
-                    <div class="absolute top-0 right-0 w-24 h-24 bg-blue-500/5 rounded-bl-full pointer-events-none"></div>
+            <!-- 控制列：分類切換 Tab 與即時搜尋 -->
+            <div class="flex flex-col md:flex-row items-center justify-between gap-4 mb-10 pb-6 border-b border-slate-200">
+                <!-- 分類過濾按鈕 -->
+                <div class="flex flex-wrap items-center gap-2 w-full md:w-auto">
+                    <button class="software-filter-btn px-4 py-2 rounded-xl text-xs sm:text-sm font-semibold transition bg-blue-600 text-white shadow-sm" data-filter="all">
+                        全部軟體 (13)
+                    </button>
+                    <button class="software-filter-btn px-4 py-2 rounded-xl text-xs sm:text-sm font-semibold transition bg-white text-slate-600 hover:bg-slate-100 border border-slate-200" data-filter="test">
+                        <i class="fa-solid fa-industry mr-1 text-blue-500"></i>自動化測試 (5)
+                    </button>
+                    <button class="software-filter-btn px-4 py-2 rounded-xl text-xs sm:text-sm font-semibold transition bg-white text-slate-600 hover:bg-slate-100 border border-slate-200" data-filter="prod">
+                        <i class="fa-solid fa-boxes-packing mr-1 text-indigo-500"></i>產線與資料庫 (4)
+                    </button>
+                    <button class="software-filter-btn px-4 py-2 rounded-xl text-xs sm:text-sm font-semibold transition bg-white text-slate-600 hover:bg-slate-100 border border-slate-200" data-filter="biz">
+                        <i class="fa-solid fa-file-invoice-dollar mr-1 text-emerald-500"></i>企業自動化 (4)
+                    </button>
+                </div>
+
+                <!-- 搜尋輸入框 -->
+                <div class="relative w-full md:w-72">
+                    <i class="fa-solid fa-magnifying-glass absolute left-3.5 top-1/2 -translate-y-1/2 text-slate-400 text-xs"></i>
+                    <input type="text" id="softwareSearchInput" placeholder="搜尋軟體名稱、功能或版本..." class="w-full pl-9 pr-4 py-2 text-xs sm:text-sm bg-white border border-slate-200 rounded-xl focus:outline-none focus:ring-2 focus:ring-blue-500 shadow-sm">
+                </div>
+            </div>
+
+            <!-- 軟體卡片網格 (13 套軟體) -->
+            <div id="softwareCardsGrid" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+                <!-- 軟體卡片: 報關單據自動整合系統 -->
+                <div class="software-card bg-white rounded-2xl border border-slate-200/90 shadow-sm hover:border-blue-400 p-6 flex flex-col justify-between card-hover relative overflow-hidden" data-category="biz" data-search="報關單據自動整合系統 v2.1.1 依據出貨單、產線裝箱明細、船務訂艙通知單，自動進行跨單據對帳、混板合併、序號區間整合與嘜頭排版，產出符合報關與交貨規格的 invoice、與 packing list。">
                     <div>
-                        <div class="flex items-center justify-between mb-5">
-                            <div class="w-12 h-12 rounded-xl bg-blue-50 text-blue-600 flex items-center justify-center text-xl shadow-inner">
+                        <div class="flex items-center justify-between mb-4">
+                            <div class="w-11 h-11 rounded-xl flex items-center justify-center text-lg shadow-inner border text-blue-600 bg-blue-50 border-blue-200">
+                                <i class="fa-solid fa-file-invoice-dollar"></i>
+                            </div>
+                            <div class="flex items-center space-x-2">
+                                <span class="text-[11px] font-bold px-2.5 py-0.5 bg-amber-100 text-amber-800 rounded-full flex items-center space-x-1"><span class="w-1.5 h-1.5 rounded-full bg-amber-500"></span><span>In Testing</span></span>
+                                <span class="text-xs text-slate-600 font-mono font-bold bg-slate-100 px-2 py-0.5 rounded border border-slate-200">V2.1.1</span>
+                            </div>
+                        </div>
+                        <div class="flex items-center space-x-2 mb-1.5">
+                            <span class="text-[10px] font-bold px-2 py-0.5 bg-slate-100 text-slate-600 rounded">企業自動化</span>
+                        </div>
+                        <h3 class="text-lg font-bold text-slate-900 mb-2">報關單據自動整合系統</h3>
+                        <p class="text-slate-600 text-xs sm:text-sm leading-relaxed mb-4">依據出貨單、產線裝箱明細、船務訂艙通知單，自動進行跨單據對帳、混板合併、序號區間整合與嘜頭排版，產出符合報關與交貨規格的 Invoice、與 Packing List。</p>
+                    </div>
+
+                    <div class="space-y-3 pt-3 border-t border-slate-100">
+                        <div class="p-2.5 bg-slate-50 rounded-xl text-xs border border-slate-100">
+                            <span class="font-semibold text-slate-700 block mb-1 flex items-center space-x-1">
+                                <i class="fa-solid fa-clock-rotate-left text-[10px] text-blue-500"></i>
+                                <span>最新改版說明：</span>
+                            </span>
+                            <div class="text-slate-600 leading-relaxed text-[11px]">- 匯出資料錯誤修正。(v2.1.1, 2026/11/18)</div>
+                        </div>
+                        <div class="flex items-center justify-between text-[11px] text-slate-400 pt-1">
+                            <span class="flex items-center space-x-1 font-mono">
+                                <i class="fa-regular fa-calendar text-slate-400"></i>
+                                <span>2026/11/18</span>
+                            </span>
+                            <span class="font-mono truncate max-w-[170px] text-right text-slate-500" title="\\FS6706T-2025\Public\Release\報關單據自動整合系統">
+                                <i class="fa-regular fa-folder-open mr-1 text-slate-400"></i>報關單據自動整合系統
+                            </span>
+                        </div>
+                    </div>
+                </div>
+                <!-- 軟體卡片: 出貨序號表自動彙整工具 -->
+                <div class="software-card bg-white rounded-2xl border border-slate-200/90 shadow-sm hover:border-blue-400 p-6 flex flex-col justify-between card-hover relative overflow-hidden" data-category="prod" data-search="出貨序號表自動彙整工具 v2.2.1 依出貨明細資料、研發樣品序號資料、製令工單明細、以及產線小板綁定出廠序號／箱號等資料，自動彙整出貨序號表。">
+                    <div>
+                        <div class="flex items-center justify-between mb-4">
+                            <div class="w-11 h-11 rounded-xl flex items-center justify-center text-lg shadow-inner border text-indigo-600 bg-indigo-50 border-indigo-200">
+                                <i class="fa-solid fa-boxes-packing"></i>
+                            </div>
+                            <div class="flex items-center space-x-2">
+                                <span class="text-[11px] font-bold px-2.5 py-0.5 bg-emerald-100 text-emerald-800 rounded-full flex items-center space-x-1"><span class="w-1.5 h-1.5 rounded-full bg-emerald-500"></span><span>Released</span></span>
+                                <span class="text-xs text-slate-600 font-mono font-bold bg-slate-100 px-2 py-0.5 rounded border border-slate-200">V2.2.1</span>
+                            </div>
+                        </div>
+                        <div class="flex items-center space-x-2 mb-1.5">
+                            <span class="text-[10px] font-bold px-2 py-0.5 bg-slate-100 text-slate-600 rounded">產線與資料庫</span>
+                        </div>
+                        <h3 class="text-lg font-bold text-slate-900 mb-2">出貨序號表自動彙整工具</h3>
+                        <p class="text-slate-600 text-xs sm:text-sm leading-relaxed mb-4">依出貨明細資料、研發樣品序號資料、製令工單明細、以及產線小板綁定出廠序號／箱號等資料，自動彙整出貨序號表。</p>
+                    </div>
+
+                    <div class="space-y-3 pt-3 border-t border-slate-100">
+                        <div class="p-2.5 bg-slate-50 rounded-xl text-xs border border-slate-100">
+                            <span class="font-semibold text-slate-700 block mb-1 flex items-center space-x-1">
+                                <i class="fa-solid fa-clock-rotate-left text-[10px] text-blue-500"></i>
+                                <span>最新改版說明：</span>
+                            </span>
+                            <div class="text-slate-600 leading-relaxed text-[11px]">- 啟動程式時、自動帶入上次設定，無須重新選擇路徑、指定參數。(v2.2.1, 2026/11/16)<br>- 箱號選擇優化。(v2.1.1, 2026/11/13)</div>
+                        </div>
+                        <div class="flex items-center justify-between text-[11px] text-slate-400 pt-1">
+                            <span class="flex items-center space-x-1 font-mono">
+                                <i class="fa-regular fa-calendar text-slate-400"></i>
+                                <span>2026/11/16</span>
+                            </span>
+                            <span class="font-mono truncate max-w-[170px] text-right text-slate-500" title="\\FS6706T-2025\Public\Release\出貨序號表自動彙整工具">
+                                <i class="fa-regular fa-folder-open mr-1 text-slate-400"></i>出貨序號表自動彙整工具
+                            </span>
+                        </div>
+                    </div>
+                </div>
+                <!-- 軟體卡片: 薪資資料自動寄送系統 -->
+                <div class="software-card bg-white rounded-2xl border border-slate-200/90 shadow-sm hover:border-blue-400 p-6 flex flex-col justify-between card-hover relative overflow-hidden" data-category="biz" data-search="薪資資料自動寄送系統 v2.9.2 依據薪資總表自動產生個人薪資明細，並於預定入帳日期透過電子郵件發送薪資入帳通知。">
+                    <div>
+                        <div class="flex items-center justify-between mb-4">
+                            <div class="w-11 h-11 rounded-xl flex items-center justify-center text-lg shadow-inner border text-violet-600 bg-violet-50 border-violet-200">
+                                <i class="fa-solid fa-envelope-open-text"></i>
+                            </div>
+                            <div class="flex items-center space-x-2">
+                                <span class="text-[11px] font-bold px-2.5 py-0.5 bg-emerald-100 text-emerald-800 rounded-full flex items-center space-x-1"><span class="w-1.5 h-1.5 rounded-full bg-emerald-500"></span><span>Released</span></span>
+                                <span class="text-xs text-slate-600 font-mono font-bold bg-slate-100 px-2 py-0.5 rounded border border-slate-200">V2.9.2</span>
+                            </div>
+                        </div>
+                        <div class="flex items-center space-x-2 mb-1.5">
+                            <span class="text-[10px] font-bold px-2 py-0.5 bg-slate-100 text-slate-600 rounded">企業自動化</span>
+                        </div>
+                        <h3 class="text-lg font-bold text-slate-900 mb-2">薪資資料自動寄送系統</h3>
+                        <p class="text-slate-600 text-xs sm:text-sm leading-relaxed mb-4">依據薪資總表自動產生個人薪資明細，並於預定入帳日期透過電子郵件發送薪資入帳通知。</p>
+                    </div>
+
+                    <div class="space-y-3 pt-3 border-t border-slate-100">
+                        <div class="p-2.5 bg-slate-50 rounded-xl text-xs border border-slate-100">
+                            <span class="font-semibold text-slate-700 block mb-1 flex items-center space-x-1">
+                                <i class="fa-solid fa-clock-rotate-left text-[10px] text-blue-500"></i>
+                                <span>最新改版說明：</span>
+                            </span>
+                            <div class="text-slate-600 leading-relaxed text-[11px]">- 預定入帳日期設定、加入時間設定功能。(v2.9.2, 2026/11/16)<br>- 以薪資總表產生個人薪資明細、並於預定入帳日期寄送、待驗證。(v2.8.1, 2026/11/12)</div>
+                        </div>
+                        <div class="flex items-center justify-between text-[11px] text-slate-400 pt-1">
+                            <span class="flex items-center space-x-1 font-mono">
+                                <i class="fa-regular fa-calendar text-slate-400"></i>
+                                <span>2026/11/16</span>
+                            </span>
+                            <span class="font-mono truncate max-w-[170px] text-right text-slate-500" title="\\FS6706T-2025\Public\Release\薪資資料自動寄送系統">
+                                <i class="fa-regular fa-folder-open mr-1 text-slate-400"></i>薪資資料自動寄送系統
+                            </span>
+                        </div>
+                    </div>
+                </div>
+                <!-- 軟體卡片: 小板綁定工單 -->
+                <div class="software-card bg-white rounded-2xl border border-slate-200/90 shadow-sm hover:border-blue-400 p-6 flex flex-col justify-between card-hover relative overflow-hidden" data-category="prod" data-search="小板綁定工單 v1.0.5 以工單序號綁定主板、控板、driver板，並綁定出廠序號、箱號">
+                    <div>
+                        <div class="flex items-center justify-between mb-4">
+                            <div class="w-11 h-11 rounded-xl flex items-center justify-center text-lg shadow-inner border text-rose-600 bg-rose-50 border-rose-200">
+                                <i class="fa-solid fa-barcode"></i>
+                            </div>
+                            <div class="flex items-center space-x-2">
+                                <span class="text-[11px] font-bold px-2.5 py-0.5 bg-emerald-100 text-emerald-800 rounded-full flex items-center space-x-1"><span class="w-1.5 h-1.5 rounded-full bg-emerald-500"></span><span>Released</span></span>
+                                <span class="text-xs text-slate-600 font-mono font-bold bg-slate-100 px-2 py-0.5 rounded border border-slate-200">V1.0.5</span>
+                            </div>
+                        </div>
+                        <div class="flex items-center space-x-2 mb-1.5">
+                            <span class="text-[10px] font-bold px-2 py-0.5 bg-slate-100 text-slate-600 rounded">產線與資料庫</span>
+                        </div>
+                        <h3 class="text-lg font-bold text-slate-900 mb-2">小板綁定工單</h3>
+                        <p class="text-slate-600 text-xs sm:text-sm leading-relaxed mb-4">以工單序號綁定主板、控板、Driver板，並綁定出廠序號、箱號</p>
+                    </div>
+
+                    <div class="space-y-3 pt-3 border-t border-slate-100">
+                        <div class="p-2.5 bg-slate-50 rounded-xl text-xs border border-slate-100">
+                            <span class="font-semibold text-slate-700 block mb-1 flex items-center space-x-1">
+                                <i class="fa-solid fa-clock-rotate-left text-[10px] text-blue-500"></i>
+                                <span>最新改版說明：</span>
+                            </span>
+                            <div class="text-slate-600 leading-relaxed text-[11px]">- 需輸入密碼、才能修改參數 (資料存檔路徑)。(v1.0.5, 2026/09/10)<br>- Bar code  輸入時，自動切換為英數輸入模式。(v1.0.4b, 2026/08/25)<br>- 增：出廠序號、箱號綁定 (v1.0.4a, 2026/08/21)</div>
+                        </div>
+                        <div class="flex items-center justify-between text-[11px] text-slate-400 pt-1">
+                            <span class="flex items-center space-x-1 font-mono">
+                                <i class="fa-regular fa-calendar text-slate-400"></i>
+                                <span>2026/09/10</span>
+                            </span>
+                            <span class="font-mono truncate max-w-[170px] text-right text-slate-500" title="\\FS6706T-2025\Public\Release\小板綁定工單">
+                                <i class="fa-regular fa-folder-open mr-1 text-slate-400"></i>小板綁定工單
+                            </span>
+                        </div>
+                    </div>
+                </div>
+                <!-- 軟體卡片: 測試結果資料匯入 -->
+                <div class="software-card bg-white rounded-2xl border border-slate-200/90 shadow-sm hover:border-blue-400 p-6 flex flex-col justify-between card-hover relative overflow-hidden" data-category="prod" data-search="測試結果資料匯入 v1.6.1c 提供測試結果資料備份至伺服器功能，以利後續查詢、追溯及分析。">
+                    <div>
+                        <div class="flex items-center justify-between mb-4">
+                            <div class="w-11 h-11 rounded-xl flex items-center justify-center text-lg shadow-inner border text-teal-600 bg-teal-50 border-teal-200">
+                                <i class="fa-solid fa-file-import"></i>
+                            </div>
+                            <div class="flex items-center space-x-2">
+                                <span class="text-[11px] font-bold px-2.5 py-0.5 bg-emerald-100 text-emerald-800 rounded-full flex items-center space-x-1"><span class="w-1.5 h-1.5 rounded-full bg-emerald-500"></span><span>Released</span></span>
+                                <span class="text-xs text-slate-600 font-mono font-bold bg-slate-100 px-2 py-0.5 rounded border border-slate-200">v1.6.1c</span>
+                            </div>
+                        </div>
+                        <div class="flex items-center space-x-2 mb-1.5">
+                            <span class="text-[10px] font-bold px-2 py-0.5 bg-slate-100 text-slate-600 rounded">產線與資料庫</span>
+                        </div>
+                        <h3 class="text-lg font-bold text-slate-900 mb-2">測試結果資料匯入</h3>
+                        <p class="text-slate-600 text-xs sm:text-sm leading-relaxed mb-4">提供測試結果資料備份至伺服器功能，以利後續查詢、追溯及分析。</p>
+                    </div>
+
+                    <div class="space-y-3 pt-3 border-t border-slate-100">
+                        <div class="p-2.5 bg-slate-50 rounded-xl text-xs border border-slate-100">
+                            <span class="font-semibold text-slate-700 block mb-1 flex items-center space-x-1">
+                                <i class="fa-solid fa-clock-rotate-left text-[10px] text-blue-500"></i>
+                                <span>最新改版說明：</span>
+                            </span>
+                            <div class="text-slate-600 leading-relaxed text-[11px]">- 測試結果資料匯入 server 路徑修改。(v1.6.1c, 2026/9/3)</div>
+                        </div>
+                        <div class="flex items-center justify-between text-[11px] text-slate-400 pt-1">
+                            <span class="flex items-center space-x-1 font-mono">
+                                <i class="fa-regular fa-calendar text-slate-400"></i>
+                                <span>2026/09/03</span>
+                            </span>
+                            <span class="font-mono truncate max-w-[170px] text-right text-slate-500" title="\\FS6706T-2025\Public\Release\測試結果資料匯入">
+                                <i class="fa-regular fa-folder-open mr-1 text-slate-400"></i>測試結果資料匯入
+                            </span>
+                        </div>
+                    </div>
+                </div>
+                <!-- 軟體卡片: Test Terminal -->
+                <div class="software-card bg-white rounded-2xl border border-slate-200/90 shadow-sm hover:border-blue-400 p-6 flex flex-col justify-between card-hover relative overflow-hidden" data-category="test" data-search="test terminal v1.0.1a 提供 rs232 串列通訊測試功能，支援批次指令傳送、資料收發、與記錄存檔，用以協助通訊驗證及設備問題分析。">
+                    <div>
+                        <div class="flex items-center justify-between mb-4">
+                            <div class="w-11 h-11 rounded-xl flex items-center justify-center text-lg shadow-inner border text-amber-600 bg-amber-50 border-amber-200">
+                                <i class="fa-solid fa-terminal"></i>
+                            </div>
+                            <div class="flex items-center space-x-2">
+                                <span class="text-[11px] font-bold px-2.5 py-0.5 bg-emerald-100 text-emerald-800 rounded-full flex items-center space-x-1"><span class="w-1.5 h-1.5 rounded-full bg-emerald-500"></span><span>Released</span></span>
+                                <span class="text-xs text-slate-600 font-mono font-bold bg-slate-100 px-2 py-0.5 rounded border border-slate-200">v1.0.1a</span>
+                            </div>
+                        </div>
+                        <div class="flex items-center space-x-2 mb-1.5">
+                            <span class="text-[10px] font-bold px-2 py-0.5 bg-slate-100 text-slate-600 rounded">自動化測試</span>
+                        </div>
+                        <h3 class="text-lg font-bold text-slate-900 mb-2">Test Terminal</h3>
+                        <p class="text-slate-600 text-xs sm:text-sm leading-relaxed mb-4">提供 RS232 串列通訊測試功能，支援批次指令傳送、資料收發、與記錄存檔，用以協助通訊驗證及設備問題分析。</p>
+                    </div>
+
+                    <div class="space-y-3 pt-3 border-t border-slate-100">
+                        <div class="p-2.5 bg-slate-50 rounded-xl text-xs border border-slate-100">
+                            <span class="font-semibold text-slate-700 block mb-1 flex items-center space-x-1">
+                                <i class="fa-solid fa-clock-rotate-left text-[10px] text-blue-500"></i>
+                                <span>最新改版說明：</span>
+                            </span>
+                            <div class="text-slate-600 leading-relaxed text-[11px]">- 解決測試中、Delay 無法停止問題。(v1.0.1a, 2026/9/2)</div>
+                        </div>
+                        <div class="p-2 bg-amber-50/60 rounded-xl text-xs border border-amber-100">
+                            <span class="font-semibold text-amber-800 block mb-1 text-[11px] flex items-center space-x-1">
+                                <i class="fa-solid fa-lightbulb text-[10px] text-amber-500"></i>
+                                <span>規劃改善：</span>
+                            </span>
+                            <div class="text-amber-900/80 leading-relaxed text-[11px]">- 通訊重試機制。<br>- Delay 倒數計時。</div>
+                        </div>
+                        <div class="flex items-center justify-between text-[11px] text-slate-400 pt-1">
+                            <span class="flex items-center space-x-1 font-mono">
+                                <i class="fa-regular fa-calendar text-slate-400"></i>
+                                <span>2026/09/02</span>
+                            </span>
+                            <span class="font-mono truncate max-w-[170px] text-right text-slate-500" title="\\FS6706T-2025\Public\Release\測試用終端機">
+                                <i class="fa-regular fa-folder-open mr-1 text-slate-400"></i>測試用終端機
+                            </span>
+                        </div>
+                    </div>
+                </div>
+                <!-- 軟體卡片: 測試結果資料查詢 -->
+                <div class="software-card bg-white rounded-2xl border border-slate-200/90 shadow-sm hover:border-blue-400 p-6 flex flex-col justify-between card-hover relative overflow-hidden" data-category="prod" data-search="測試結果資料查詢 v1.4.1a 依機台、產品、製令、測試、序號等條件，搜尋測試結果資料。">
+                    <div>
+                        <div class="flex items-center justify-between mb-4">
+                            <div class="w-11 h-11 rounded-xl flex items-center justify-center text-lg shadow-inner border text-cyan-600 bg-cyan-50 border-cyan-200">
+                                <i class="fa-solid fa-magnifying-glass-chart"></i>
+                            </div>
+                            <div class="flex items-center space-x-2">
+                                <span class="text-[11px] font-bold px-2.5 py-0.5 bg-emerald-100 text-emerald-800 rounded-full flex items-center space-x-1"><span class="w-1.5 h-1.5 rounded-full bg-emerald-500"></span><span>Released</span></span>
+                                <span class="text-xs text-slate-600 font-mono font-bold bg-slate-100 px-2 py-0.5 rounded border border-slate-200">V1.4.1a</span>
+                            </div>
+                        </div>
+                        <div class="flex items-center space-x-2 mb-1.5">
+                            <span class="text-[10px] font-bold px-2 py-0.5 bg-slate-100 text-slate-600 rounded">產線與資料庫</span>
+                        </div>
+                        <h3 class="text-lg font-bold text-slate-900 mb-2">測試結果資料查詢</h3>
+                        <p class="text-slate-600 text-xs sm:text-sm leading-relaxed mb-4">依機台、產品、製令、測試、序號等條件，搜尋測試結果資料。</p>
+                    </div>
+
+                    <div class="space-y-3 pt-3 border-t border-slate-100">
+                        <div class="p-2.5 bg-slate-50 rounded-xl text-xs border border-slate-100">
+                            <span class="font-semibold text-slate-700 block mb-1 flex items-center space-x-1">
+                                <i class="fa-solid fa-clock-rotate-left text-[10px] text-blue-500"></i>
+                                <span>最新改版說明：</span>
+                            </span>
+                            <div class="text-slate-600 leading-relaxed text-[11px]">- 測試結果資料查詢目錄：New DataLog，存檔檔名WOxxxxxxxxxxxx-xxxx (function)。(v1.4.1a, 2026/9/1)<br>- 測試結果資料查詢目錄：DataLog，存檔檔名WOxxxxxxxxxxxx-xxxx。(v1.3.11a, 2026/8/12)</div>
+                        </div>
+                        <div class="flex items-center justify-between text-[11px] text-slate-400 pt-1">
+                            <span class="flex items-center space-x-1 font-mono">
+                                <i class="fa-regular fa-calendar text-slate-400"></i>
+                                <span>2026/09/01</span>
+                            </span>
+                            <span class="font-mono truncate max-w-[170px] text-right text-slate-500" title="\\FS6706T-2025\Public\Release\測試結果資料查詢">
+                                <i class="fa-regular fa-folder-open mr-1 text-slate-400"></i>測試結果資料查詢
+                            </span>
+                        </div>
+                    </div>
+                </div>
+                <!-- 軟體卡片: 源效科技自動測試系統 -->
+                <div class="software-card bg-white rounded-2xl border border-slate-200/90 shadow-sm hover:border-blue-400 p-6 flex flex-col justify-between card-hover relative overflow-hidden" data-category="test" data-search="源效科技自動測試系統 v2.1.33d 產線成品調整、成測自動化測試程式，確認成品符合功能、性能及品質要求，確保出貨產品的可靠性與一致性。">
+                    <div>
+                        <div class="flex items-center justify-between mb-4">
+                            <div class="w-11 h-11 rounded-xl flex items-center justify-center text-lg shadow-inner border text-blue-600 bg-blue-50 border-blue-200">
                                 <i class="fa-solid fa-industry"></i>
                             </div>
                             <div class="flex items-center space-x-2">
-                                <span class="text-[11px] font-bold px-2.5 py-0.5 bg-emerald-100 text-emerald-800 rounded-full">生產線量產運行</span>
-                                <span class="text-xs text-slate-400 font-mono font-semibold">v2.1.10q</span>
+                                <span class="text-[11px] font-bold px-2.5 py-0.5 bg-emerald-100 text-emerald-800 rounded-full flex items-center space-x-1"><span class="w-1.5 h-1.5 rounded-full bg-emerald-500"></span><span>Released</span></span>
+                                <span class="text-xs text-slate-600 font-mono font-bold bg-slate-100 px-2 py-0.5 rounded border border-slate-200">v2.1.33d</span>
                             </div>
                         </div>
-                        <h3 class="text-xl font-bold text-slate-900 mb-2.5 flex items-center space-x-2">
-                            <span>PowerTest Pro™ 工控測控平台</span>
-                        </h3>
-                        <p class="text-slate-600 text-sm leading-relaxed mb-5">
-                            專為高功率電源與變頻模組打造之工業級全自動測控軟體。完美整合 Keysight N8951A、DSP80-360WE、Chroma 電子負載與多路繼電器板（Relay Board）。內建 Step-by-Step 單步調試、異常即刻全域安全復歸（Fail-Safe Power Down）及 Line Notify 測試即時通報。
-                        </p>
+                        <div class="flex items-center space-x-2 mb-1.5">
+                            <span class="text-[10px] font-bold px-2 py-0.5 bg-slate-100 text-slate-600 rounded">自動化測試</span>
+                        </div>
+                        <h3 class="text-lg font-bold text-slate-900 mb-2">源效科技自動測試系統</h3>
+                        <p class="text-slate-600 text-xs sm:text-sm leading-relaxed mb-4">產線成品調整、成測自動化測試程式，確認成品符合功能、性能及品質要求，確保出貨產品的可靠性與一致性。</p>
                     </div>
-                    <div>
-                        <div class="p-3 bg-slate-50 rounded-xl mb-4 border border-slate-100 text-xs text-slate-500 space-y-1">
-                            <div class="flex items-center justify-between">
-                                <span class="font-semibold text-slate-700">架構模式：</span>
-                                <span class="font-mono text-blue-600">QMH (Queue Message Handler)</span>
-                            </div>
-                            <div class="flex items-center justify-between">
-                                <span class="font-semibold text-slate-700">通訊協定：</span>
-                                <span class="font-mono">VISA / SCPI / GPIB</span>
-                            </div>
+
+                    <div class="space-y-3 pt-3 border-t border-slate-100">
+                        <div class="p-2.5 bg-slate-50 rounded-xl text-xs border border-slate-100">
+                            <span class="font-semibold text-slate-700 block mb-1 flex items-center space-x-1">
+                                <i class="fa-solid fa-clock-rotate-left text-[10px] text-blue-500"></i>
+                                <span>最新改版說明：</span>
+                            </span>
+                            <div class="text-slate-600 leading-relaxed text-[11px]">- 保留原來測試結果存檔功能 (存檔於 DataLog)，新增存檔於 New DataLog 目錄、檔名加 Function。(v2.1.33d, 2026/8/31)<br>- Bar code 輸入時、自動切換為英數輸入。(v2.1.33a, 2026/08/25)</div>
                         </div>
-                        <div class="flex flex-wrap gap-1.5 mb-4">
-                            <span class="px-2 py-0.5 bg-slate-100 text-slate-600 rounded text-xs">LabVIEW</span>
-                            <span class="px-2 py-0.5 bg-slate-100 text-slate-600 rounded text-xs">Keysight N8951A</span>
-                            <span class="px-2 py-0.5 bg-slate-100 text-slate-600 rounded text-xs">硬體安全互鎖</span>
+                        <div class="flex items-center justify-between text-[11px] text-slate-400 pt-1">
+                            <span class="flex items-center space-x-1 font-mono">
+                                <i class="fa-regular fa-calendar text-slate-400"></i>
+                                <span>2026/08/31</span>
+                            </span>
+                            <span class="font-mono truncate max-w-[170px] text-right text-slate-500" title="\\FS6706T-2025\Public\Release\自動測試系統程式">
+                                <i class="fa-regular fa-folder-open mr-1 text-slate-400"></i>自動測試系統程式
+                            </span>
                         </div>
-                        <a href="#architecture" class="text-sm font-bold text-blue-600 hover:text-blue-800 inline-flex items-center space-x-1.5 group">
-                            <span>檢視電源控制時序圖</span>
-                            <i class="fa-solid fa-arrow-right text-xs group-hover:translate-x-1 transition"></i>
-                        </a>
                     </div>
                 </div>
-
-                <!-- 軟體卡片 2 -->
-                <div class="bg-white rounded-2xl border border-slate-200/80 shadow-sm hover:border-indigo-400 p-7 flex flex-col justify-between card-hover relative overflow-hidden">
-                    <div class="absolute top-0 right-0 w-24 h-24 bg-indigo-500/5 rounded-bl-full pointer-events-none"></div>
+                <!-- 軟體卡片: 耐受性測試 -->
+                <div class="software-card bg-white rounded-2xl border border-slate-200/90 shadow-sm hover:border-blue-400 p-6 flex flex-col justify-between card-hover relative overflow-hidden" data-category="test" data-search="耐受性測試 v1.1.9d 驗證產品在正常、極限及異常條件下，仍能維持功能、安全與可靠性，並確認其設計具有足夠的安全裕度。">
                     <div>
-                        <div class="flex items-center justify-between mb-5">
-                            <div class="w-12 h-12 rounded-xl bg-indigo-50 text-indigo-600 flex items-center justify-center text-xl shadow-inner">
-                                <i class="fa-solid fa-wand-magic-sparkles"></i>
+                        <div class="flex items-center justify-between mb-4">
+                            <div class="w-11 h-11 rounded-xl flex items-center justify-center text-lg shadow-inner border text-emerald-600 bg-emerald-50 border-emerald-200">
+                                <i class="fa-solid fa-shield-virus"></i>
                             </div>
                             <div class="flex items-center space-x-2">
-                                <span class="text-[11px] font-bold px-2.5 py-0.5 bg-indigo-100 text-indigo-800 rounded-full">雙軌影像引擎</span>
-                                <span class="text-xs text-slate-400 font-mono font-semibold">v1.2.0</span>
+                                <span class="text-[11px] font-bold px-2.5 py-0.5 bg-emerald-100 text-emerald-800 rounded-full flex items-center space-x-1"><span class="w-1.5 h-1.5 rounded-full bg-emerald-500"></span><span>Released</span></span>
+                                <span class="text-xs text-slate-600 font-mono font-bold bg-slate-100 px-2 py-0.5 rounded border border-slate-200">v1.1.9d</span>
                             </div>
                         </div>
-                        <h3 class="text-xl font-bold text-slate-900 mb-2.5">
-                            SketchStudio 雙軌手繪素描軟體
-                        </h3>
-                        <p class="text-slate-600 text-sm leading-relaxed mb-5">
-                            前瞻性雙軌數位藝術生成系統。軌道一搭載純前端 Canvas 顏色減淡卷積演算法（Color Dodge + Fast Box Blur，零延遲、免金鑰、100% 隱私保護）；軌道二無縫橋接 Google Gemini 原生多模態圖像引擎（Nano Banana 2.1），實現多圖參考風格融合與紙質細膩筆觸。
-                        </p>
+                        <div class="flex items-center space-x-2 mb-1.5">
+                            <span class="text-[10px] font-bold px-2 py-0.5 bg-slate-100 text-slate-600 rounded">自動化測試</span>
+                        </div>
+                        <h3 class="text-lg font-bold text-slate-900 mb-2">耐受性測試</h3>
+                        <p class="text-slate-600 text-xs sm:text-sm leading-relaxed mb-4">驗證產品在正常、極限及異常條件下，仍能維持功能、安全與可靠性，並確認其設計具有足夠的安全裕度。</p>
                     </div>
-                    <div>
-                        <div class="p-3 bg-slate-50 rounded-xl mb-4 border border-slate-100 text-xs text-slate-500 space-y-1">
-                            <div class="flex items-center justify-between">
-                                <span class="font-semibold text-slate-700">前端運算：</span>
-                                <span class="font-mono text-indigo-600">Canvas 2D Kernel Filter</span>
-                            </div>
-                            <div class="flex items-center justify-between">
-                                <span class="font-semibold text-slate-700">雲端神經網路：</span>
-                                <span class="font-mono">Gemini Nano Banana 2.1</span>
-                            </div>
+
+                    <div class="space-y-3 pt-3 border-t border-slate-100">
+                        <div class="p-2.5 bg-slate-50 rounded-xl text-xs border border-slate-100">
+                            <span class="font-semibold text-slate-700 block mb-1 flex items-center space-x-1">
+                                <i class="fa-solid fa-clock-rotate-left text-[10px] text-blue-500"></i>
+                                <span>最新改版說明：</span>
+                            </span>
+                            <div class="text-slate-600 leading-relaxed text-[11px]">- Bar code 輸入時、自動切換為英數輸入。(v1.1.9d, 2026/08/25)<br>- 新增序號輸入功能、測試結果報表。</div>
                         </div>
-                        <div class="flex flex-wrap gap-1.5 mb-4">
-                            <span class="px-2 py-0.5 bg-slate-100 text-slate-600 rounded text-xs">純本機運算</span>
-                            <span class="px-2 py-0.5 bg-slate-100 text-slate-600 rounded text-xs">Gemini API</span>
-                            <span class="px-2 py-0.5 bg-slate-100 text-slate-600 rounded text-xs">風格轉換</span>
+                        <div class="flex items-center justify-between text-[11px] text-slate-400 pt-1">
+                            <span class="flex items-center space-x-1 font-mono">
+                                <i class="fa-regular fa-calendar text-slate-400"></i>
+                                <span>2026/08/25</span>
+                            </span>
+                            <span class="font-mono truncate max-w-[170px] text-right text-slate-500" title="\\FS6706T-2025\Public\Release\耐受性測試">
+                                <i class="fa-regular fa-folder-open mr-1 text-slate-400"></i>耐受性測試
+                            </span>
                         </div>
-                        <a href="#ai-tool" class="text-sm font-bold text-indigo-600 hover:text-indigo-800 inline-flex items-center space-x-1.5 group">
-                            <span>進入線上工作台</span>
-                            <i class="fa-solid fa-arrow-right text-xs group-hover:translate-x-1 transition"></i>
-                        </a>
                     </div>
                 </div>
-
-                <!-- 軟體卡片 3 -->
-                <div class="bg-white rounded-2xl border border-slate-200/80 shadow-sm hover:border-amber-400 p-7 flex flex-col justify-between card-hover relative overflow-hidden">
-                    <div class="absolute top-0 right-0 w-24 h-24 bg-amber-500/5 rounded-bl-full pointer-events-none"></div>
+                <!-- 軟體卡片: All New Relay Board Tools -->
+                <div class="software-card bg-white rounded-2xl border border-slate-200/90 shadow-sm hover:border-blue-400 p-6 flex flex-col justify-between card-hover relative overflow-hidden" data-category="test" data-search="all new relay board tools v1.0.7a 以手動方式、控制 relay board">
                     <div>
-                        <div class="flex items-center justify-between mb-5">
-                            <div class="w-12 h-12 rounded-xl bg-amber-50 text-amber-600 flex items-center justify-center text-xl shadow-inner">
-                                <i class="fa-brands fa-bluetooth-b"></i>
+                        <div class="flex items-center justify-between mb-4">
+                            <div class="w-11 h-11 rounded-xl flex items-center justify-center text-lg shadow-inner border text-purple-600 bg-purple-50 border-purple-200">
+                                <i class="fa-solid fa-toggle-on"></i>
                             </div>
                             <div class="flex items-center space-x-2">
-                                <span class="text-[11px] font-bold px-2.5 py-0.5 bg-amber-100 text-amber-800 rounded-full">通訊協定引擎</span>
-                                <span class="text-xs text-slate-400 font-mono font-semibold">v1.3.2</span>
+                                <span class="text-[11px] font-bold px-2.5 py-0.5 bg-emerald-100 text-emerald-800 rounded-full flex items-center space-x-1"><span class="w-1.5 h-1.5 rounded-full bg-emerald-500"></span><span>Released</span></span>
+                                <span class="text-xs text-slate-600 font-mono font-bold bg-slate-100 px-2 py-0.5 rounded border border-slate-200">v1.0.7a</span>
                             </div>
                         </div>
-                        <h3 class="text-xl font-bold text-slate-900 mb-2.5">
-                            BT-Inverter Link 藍芽與逆變器通訊中繼軟體
-                        </h3>
-                        <p class="text-slate-600 text-sm leading-relaxed mb-5">
-                            高抗干擾無線藍芽通訊交握與逆變器電源管理中樞。具備 `*IDN?` 設備狀態自動嗅探、引腳電位動態監控（P1_2 & P3_5）與暫時停止判斷邏輯。實現外部供電中斷與恢復輸出時的毫秒級引腳互鎖防護（OUTOFF 與 P1_3），杜絕硬體誤動作。
-                        </p>
+                        <div class="flex items-center space-x-2 mb-1.5">
+                            <span class="text-[10px] font-bold px-2 py-0.5 bg-slate-100 text-slate-600 rounded">自動化測試</span>
+                        </div>
+                        <h3 class="text-lg font-bold text-slate-900 mb-2">All New Relay Board Tools</h3>
+                        <p class="text-slate-600 text-xs sm:text-sm leading-relaxed mb-4">以手動方式、控制 Relay Board</p>
                     </div>
-                    <div>
-                        <div class="p-3 bg-slate-50 rounded-xl mb-4 border border-slate-100 text-xs text-slate-500 space-y-1">
-                            <div class="flex items-center justify-between">
-                                <span class="font-semibold text-slate-700">狀態核心：</span>
-                                <span class="font-mono text-amber-600">Finite State Machine (FSM)</span>
-                            </div>
-                            <div class="flex items-center justify-between">
-                                <span class="font-semibold text-slate-700">硬體互鎖：</span>
-                                <span class="font-mono">P1_2 / P1_3 / P3_5 IO Pins</span>
-                            </div>
+
+                    <div class="space-y-3 pt-3 border-t border-slate-100">
+                        <div class="flex items-center justify-between text-[11px] text-slate-400 pt-1">
+                            <span class="flex items-center space-x-1 font-mono">
+                                <i class="fa-regular fa-calendar text-slate-400"></i>
+                                <span>2026/08/12</span>
+                            </span>
+                            <span class="font-mono truncate max-w-[170px] text-right text-slate-500" title="\\FS6706T-2025\Public\Release\Relay Board Tools">
+                                <i class="fa-regular fa-folder-open mr-1 text-slate-400"></i>Relay Board Tools
+                            </span>
                         </div>
-                        <div class="flex flex-wrap gap-1.5 mb-4">
-                            <span class="px-2 py-0.5 bg-slate-100 text-slate-600 rounded text-xs">Bluetooth SPP</span>
-                            <span class="px-2 py-0.5 bg-slate-100 text-slate-600 rounded text-xs">Inverter 控制</span>
-                            <span class="px-2 py-0.5 bg-slate-100 text-slate-600 rounded text-xs">非同步輪詢</span>
-                        </div>
-                        <a href="#architecture" class="text-sm font-bold text-amber-600 hover:text-amber-800 inline-flex items-center space-x-1.5 group">
-                            <span>檢視藍芽交握狀態機</span>
-                            <i class="fa-solid fa-arrow-right text-xs group-hover:translate-x-1 transition"></i>
-                        </a>
                     </div>
                 </div>
-
-                <!-- 軟體卡片 4 -->
-                <div class="bg-white rounded-2xl border border-slate-200/80 shadow-sm hover:border-sky-400 p-7 flex flex-col justify-between card-hover relative overflow-hidden">
-                    <div class="absolute top-0 right-0 w-24 h-24 bg-sky-500/5 rounded-bl-full pointer-events-none"></div>
+                <!-- 軟體卡片: 財務-對帳單製作 -->
+                <div class="software-card bg-white rounded-2xl border border-slate-200/90 shadow-sm hover:border-blue-400 p-6 flex flex-col justify-between card-hover relative overflow-hidden" data-category="biz" data-search="財務-對帳單製作 v1.0.9a 以出貨、收款、訂單、預收、應收等明細資料，自動彙整為對帳單明細。">
                     <div>
-                        <div class="flex items-center justify-between mb-5">
-                            <div class="w-12 h-12 rounded-xl bg-sky-50 text-sky-600 flex items-center justify-center text-xl shadow-inner">
-                                <i class="fa-solid fa-cloud-arrow-up"></i>
+                        <div class="flex items-center justify-between mb-4">
+                            <div class="w-11 h-11 rounded-xl flex items-center justify-center text-lg shadow-inner border text-amber-600 bg-amber-50 border-amber-200">
+                                <i class="fa-solid fa-calculator"></i>
                             </div>
                             <div class="flex items-center space-x-2">
-                                <span class="text-[11px] font-bold px-2.5 py-0.5 bg-sky-100 text-sky-800 rounded-full">雲端微服務 VI</span>
-                                <span class="text-xs text-slate-400 font-mono font-semibold">v1.0.4</span>
+                                <span class="text-[11px] font-bold px-2.5 py-0.5 bg-amber-100 text-amber-800 rounded-full flex items-center space-x-1"><span class="w-1.5 h-1.5 rounded-full bg-amber-500"></span><span>In Testing</span></span>
+                                <span class="text-xs text-slate-600 font-mono font-bold bg-slate-100 px-2 py-0.5 rounded border border-slate-200">v1.0.9a</span>
                             </div>
                         </div>
-                        <h3 class="text-xl font-bold text-slate-900 mb-2.5">
-                            LabVIEW Cloud-Bridge REST API 模組
-                        </h3>
-                        <p class="text-slate-600 text-sm leading-relaxed mb-5">
-                            打通工業上位機與雲端 DevOps 的專用橋樑（`REST API (GitHub).vi`）。封裝完整 GitHub RESTful API 與 HTTPS 通訊，支援 Bearer Token 安全鑑權、測試資料與量測曲線自動序列化為 JSON，並具備版本比對與異步雲端同步功能。
-                        </p>
+                        <div class="flex items-center space-x-2 mb-1.5">
+                            <span class="text-[10px] font-bold px-2 py-0.5 bg-slate-100 text-slate-600 rounded">企業自動化</span>
+                        </div>
+                        <h3 class="text-lg font-bold text-slate-900 mb-2">財務-對帳單製作</h3>
+                        <p class="text-slate-600 text-xs sm:text-sm leading-relaxed mb-4">以出貨、收款、訂單、預收、應收等明細資料，自動彙整為對帳單明細。</p>
                     </div>
-                    <div>
-                        <div class="p-3 bg-slate-50 rounded-xl mb-4 border border-slate-100 text-xs text-slate-500 space-y-1">
-                            <div class="flex items-center justify-between">
-                                <span class="font-semibold text-slate-700">通訊層：</span>
-                                <span class="font-mono text-sky-600">HTTPS / TLS 1.3 Client</span>
-                            </div>
-                            <div class="flex items-center justify-between">
-                                <span class="font-semibold text-slate-700">數據格式：</span>
-                                <span class="font-mono">JSON Schema / Base64 Payload</span>
-                            </div>
+
+                    <div class="space-y-3 pt-3 border-t border-slate-100">
+                        <div class="p-2.5 bg-slate-50 rounded-xl text-xs border border-slate-100">
+                            <span class="font-semibold text-slate-700 block mb-1 flex items-center space-x-1">
+                                <i class="fa-solid fa-clock-rotate-left text-[10px] text-blue-500"></i>
+                                <span>最新改版說明：</span>
+                            </span>
+                            <div class="text-slate-600 leading-relaxed text-[11px]">- 依 7/22、Sally 郵件說明，加入 RMA 判斷。<br>- 以 7/13 會議結論修改。</div>
                         </div>
-                        <div class="flex flex-wrap gap-1.5 mb-4">
-                            <span class="px-2 py-0.5 bg-slate-100 text-slate-600 rounded text-xs">LabVIEW VI</span>
-                            <span class="px-2 py-0.5 bg-slate-100 text-slate-600 rounded text-xs">GitHub API</span>
-                            <span class="px-2 py-0.5 bg-slate-100 text-slate-600 rounded text-xs">產線數據雲端化</span>
+                        <div class="flex items-center justify-between text-[11px] text-slate-400 pt-1">
+                            <span class="flex items-center space-x-1 font-mono">
+                                <i class="fa-regular fa-calendar text-slate-400"></i>
+                                <span>2026/07/28</span>
+                            </span>
+                            <span class="font-mono truncate max-w-[170px] text-right text-slate-500" title="\\FS6706T-2025\Public\Release\應收帳款核對工具">
+                                <i class="fa-regular fa-folder-open mr-1 text-slate-400"></i>應收帳款核對工具
+                            </span>
                         </div>
-                        <span class="text-xs text-slate-400 font-medium">已實施於生產線自動化歸檔</span>
                     </div>
                 </div>
-
-                <!-- 軟體卡片 5 -->
-                <div class="bg-white rounded-2xl border border-slate-200/80 shadow-sm hover:border-purple-400 p-7 flex flex-col justify-between card-hover relative overflow-hidden">
-                    <div class="absolute top-0 right-0 w-24 h-24 bg-purple-500/5 rounded-bl-full pointer-events-none"></div>
+                <!-- 軟體卡片: 104 打卡資料上傳程式 -->
+                <div class="software-card bg-white rounded-2xl border border-slate-200/90 shadow-sm hover:border-blue-400 p-6 flex flex-col justify-between card-hover relative overflow-hidden" data-category="biz" data-search="104 打卡資料上傳程式 v1.0.4c 將 st 打卡資料，上傳至 104 企業大師">
                     <div>
-                        <div class="flex items-center justify-between mb-5">
-                            <div class="w-12 h-12 rounded-xl bg-purple-50 text-purple-600 flex items-center justify-center text-xl shadow-inner">
-                                <i class="fa-solid fa-project-diagram"></i>
+                        <div class="flex items-center justify-between mb-4">
+                            <div class="w-11 h-11 rounded-xl flex items-center justify-center text-lg shadow-inner border text-orange-600 bg-orange-50 border-orange-200">
+                                <i class="fa-solid fa-user-clock"></i>
                             </div>
                             <div class="flex items-center space-x-2">
-                                <span class="text-[11px] font-bold px-2.5 py-0.5 bg-purple-100 text-purple-800 rounded-full">程式即文件套件</span>
-                                <span class="text-xs text-slate-400 font-mono font-semibold">v2.0</span>
+                                <span class="text-[11px] font-bold px-2.5 py-0.5 bg-emerald-100 text-emerald-800 rounded-full flex items-center space-x-1"><span class="w-1.5 h-1.5 rounded-full bg-emerald-500"></span><span>Released</span></span>
+                                <span class="text-xs text-slate-600 font-mono font-bold bg-slate-100 px-2 py-0.5 rounded border border-slate-200">v1.0.4c</span>
                             </div>
                         </div>
-                        <h3 class="text-xl font-bold text-slate-900 mb-2.5">
-                            Mermaid FlowForge 系統架構工程套件
-                        </h3>
-                        <p class="text-slate-600 text-sm leading-relaxed mb-5">
-                            秉持「架構即代碼 (Architecture as Code)」之現代工程準則，為複雜工控測試邏輯建立全套 Mermaid 語法標準庫。涵蓋時序圖（Sequence Diagram）、狀態轉換圖（State Machine）、甘特排程與硬體引腳互鎖流程，實現高度可讀與可維護性。
-                        </p>
+                        <div class="flex items-center space-x-2 mb-1.5">
+                            <span class="text-[10px] font-bold px-2 py-0.5 bg-slate-100 text-slate-600 rounded">企業自動化</span>
+                        </div>
+                        <h3 class="text-lg font-bold text-slate-900 mb-2">104 打卡資料上傳程式</h3>
+                        <p class="text-slate-600 text-xs sm:text-sm leading-relaxed mb-4">將 ST 打卡資料，上傳至 104 企業大師</p>
                     </div>
-                    <div>
-                        <div class="p-3 bg-slate-50 rounded-xl mb-4 border border-slate-100 text-xs text-slate-500 space-y-1">
-                            <div class="flex items-center justify-between">
-                                <span class="font-semibold text-slate-700">渲染核心：</span>
-                                <span class="font-mono text-purple-600">Mermaid.js v11 SVG Engine</span>
-                            </div>
-                            <div class="flex items-center justify-between">
-                                <span class="font-semibold text-slate-700">文件規範：</span>
-                                <span class="font-mono">GFM / Markdown Standards</span>
-                            </div>
+
+                    <div class="space-y-3 pt-3 border-t border-slate-100">
+                        <div class="p-2.5 bg-slate-50 rounded-xl text-xs border border-slate-100">
+                            <span class="font-semibold text-slate-700 block mb-1 flex items-center space-x-1">
+                                <i class="fa-solid fa-clock-rotate-left text-[10px] text-blue-500"></i>
+                                <span>最新改版說明：</span>
+                            </span>
+                            <div class="text-slate-600 leading-relaxed text-[11px]">- 系統 NG 通知功能，整合至 Telegram 平台。</div>
                         </div>
-                        <div class="flex flex-wrap gap-1.5 mb-4">
-                            <span class="px-2 py-0.5 bg-slate-100 text-slate-600 rounded text-xs">時序圖規範</span>
-                            <span class="px-2 py-0.5 bg-slate-100 text-slate-600 rounded text-xs">狀態機視覺化</span>
-                            <span class="px-2 py-0.5 bg-slate-100 text-slate-600 rounded text-xs">動態向量渲染</span>
+                        <div class="flex items-center justify-between text-[11px] text-slate-400 pt-1">
+                            <span class="flex items-center space-x-1 font-mono">
+                                <i class="fa-regular fa-calendar text-slate-400"></i>
+                                <span>2026/07/03</span>
+                            </span>
+                            <span class="font-mono truncate max-w-[170px] text-right text-slate-500" title="\\FS6706T-2025\Public\Release\打卡資料上傳">
+                                <i class="fa-regular fa-folder-open mr-1 text-slate-400"></i>打卡資料上傳
+                            </span>
                         </div>
-                        <a href="#architecture" class="text-sm font-bold text-purple-600 hover:text-purple-800 inline-flex items-center space-x-1.5 group">
-                            <span>瀏覽架構圖表庫</span>
-                            <i class="fa-solid fa-arrow-right text-xs group-hover:translate-x-1 transition"></i>
-                        </a>
                     </div>
                 </div>
-
-                <!-- 軟體卡片 6 -->
-                <div class="bg-white rounded-2xl border border-slate-200/80 shadow-sm hover:border-teal-400 p-7 flex flex-col justify-between card-hover relative overflow-hidden">
-                    <div class="absolute top-0 right-0 w-24 h-24 bg-teal-500/5 rounded-bl-full pointer-events-none"></div>
+                <!-- 軟體卡片: EERW -->
+                <div class="software-card bg-white rounded-2xl border border-slate-200/90 shadow-sm hover:border-blue-400 p-6 flex flex-col justify-between card-hover relative overflow-hidden" data-category="test" data-search="eerw v2.0.9 讀/寫 eeprom & 讀 record">
                     <div>
-                        <div class="flex items-center justify-between mb-5">
-                            <div class="w-12 h-12 rounded-xl bg-teal-50 text-teal-600 flex items-center justify-center text-xl shadow-inner">
-                                <i class="fa-solid fa-database"></i>
+                        <div class="flex items-center justify-between mb-4">
+                            <div class="w-11 h-11 rounded-xl flex items-center justify-center text-lg shadow-inner border text-sky-600 bg-sky-50 border-sky-200">
+                                <i class="fa-solid fa-memory"></i>
                             </div>
                             <div class="flex items-center space-x-2">
-                                <span class="text-[11px] font-bold px-2.5 py-0.5 bg-teal-100 text-teal-800 rounded-full">分散式中央儲存</span>
-                                <span class="text-xs text-slate-400 font-mono font-semibold">v2.0.9</span>
+                                <span class="text-[11px] font-bold px-2.5 py-0.5 bg-emerald-100 text-emerald-800 rounded-full flex items-center space-x-1"><span class="w-1.5 h-1.5 rounded-full bg-emerald-500"></span><span>Released</span></span>
+                                <span class="text-xs text-slate-600 font-mono font-bold bg-slate-100 px-2 py-0.5 rounded border border-slate-200">v2.0.9</span>
                             </div>
                         </div>
-                        <h3 class="text-xl font-bold text-slate-900 mb-2.5">
-                            DataVault NAS 測試資料庫與腳本管理系統
-                        </h3>
-                        <p class="text-slate-600 text-sm leading-relaxed mb-5">
-                            構建於 AS4002T NAS 之分散式測試資料管理核心。依客戶、機種與序號層級自動化歸檔 Noise Data 與 TestScript 腳本；解析 All New DeviceIDN / UUTDN 規格表，提供微秒級測試日誌溯源、儀表組態追蹤與斷線自動重試備份機制。
-                        </p>
+                        <div class="flex items-center space-x-2 mb-1.5">
+                            <span class="text-[10px] font-bold px-2 py-0.5 bg-slate-100 text-slate-600 rounded">自動化測試</span>
+                        </div>
+                        <h3 class="text-lg font-bold text-slate-900 mb-2">EERW</h3>
+                        <p class="text-slate-600 text-xs sm:text-sm leading-relaxed mb-4">讀/寫 EEPROM & 讀 Record</p>
                     </div>
-                    <div>
-                        <div class="p-3 bg-slate-50 rounded-xl mb-4 border border-slate-100 text-xs text-slate-500 space-y-1">
-                            <div class="flex items-center justify-between">
-                                <span class="font-semibold text-slate-700">儲存協定：</span>
-                                <span class="font-mono text-teal-600">SMB 3.0 / NFS / TSV Schema</span>
-                            </div>
-                            <div class="flex items-center justify-between">
-                                <span class="font-semibold text-slate-700">資料安全：</span>
-                                <span class="font-mono">RAID 容災備份 / 權限隔離</span>
-                            </div>
+
+                    <div class="space-y-3 pt-3 border-t border-slate-100">
+                        <div class="p-2 bg-amber-50/60 rounded-xl text-xs border border-amber-100">
+                            <span class="font-semibold text-amber-800 block mb-1 text-[11px] flex items-center space-x-1">
+                                <i class="fa-solid fa-lightbulb text-[10px] text-amber-500"></i>
+                                <span>規劃改善：</span>
+                            </span>
+                            <div class="text-amber-900/80 leading-relaxed text-[11px]">擬修改、可匯出 Excel 的 xlsx 格式文件。</div>
                         </div>
-                        <div class="flex flex-wrap gap-1.5 mb-4">
-                            <span class="px-2 py-0.5 bg-slate-100 text-slate-600 rounded text-xs">NAS 集中管理</span>
-                            <span class="px-2 py-0.5 bg-slate-100 text-slate-600 rounded text-xs">TSV 高速剖析</span>
-                            <span class="px-2 py-0.5 bg-slate-100 text-slate-600 rounded text-xs">大數據日誌</span>
+                        <div class="flex items-center justify-between text-[11px] text-slate-400 pt-1">
+                            <span class="flex items-center space-x-1 font-mono">
+                                <i class="fa-regular fa-calendar text-slate-400"></i>
+                                <span>2025/06/27</span>
+                            </span>
+                            <span class="font-mono truncate max-w-[170px] text-right text-slate-500" title="\\FS6706T-2025\Public\Release\EERW">
+                                <i class="fa-regular fa-folder-open mr-1 text-slate-400"></i>EERW
+                            </span>
                         </div>
-                        <span class="text-xs text-slate-400 font-medium">保障百萬筆量產數據完整性</span>
                     </div>
                 </div>
+            </div>
+
+            <!-- 無搜尋結果提示 -->
+            <div id="noSoftwareFound" class="hidden text-center py-16">
+                <i class="fa-regular fa-folder-open text-4xl text-slate-300 mb-3"></i>
+                <p class="text-slate-500 text-sm">找不到符合條件的軟體項目，請嘗試其他關鍵字或切換分類。</p>
             </div>
         </div>
     </section>
@@ -1195,6 +1470,55 @@ flowchart TD
                 loadingContainer.classList.add('hidden');
             }
         });
+
+        // ==========================================
+        // 軟體清單分類過濾與即時搜尋邏輯 (程式清單.xlsx)
+        // ==========================================
+        const filterBtns = document.querySelectorAll('.software-filter-btn');
+        const searchInput = document.getElementById('softwareSearchInput');
+        const cards = document.querySelectorAll('.software-card');
+        const noFoundBox = document.getElementById('noSoftwareFound');
+        let currentFilter = 'all';
+
+        function applySoftwareFilter() {
+            const query = (searchInput ? searchInput.value.trim().toLowerCase() : '');
+            let visibleCount = 0;
+
+            cards.forEach(card => {
+                const cat = card.getAttribute('data-category');
+                const searchData = card.getAttribute('data-search') || '';
+
+                const matchesCat = (currentFilter === 'all' || cat === currentFilter);
+                const matchesSearch = (!query || searchData.includes(query));
+
+                if (matchesCat && matchesSearch) {
+                    card.style.display = '';
+                    visibleCount++;
+                } else {
+                    card.style.display = 'none';
+                }
+            });
+
+            if (noFoundBox) {
+                noFoundBox.classList.toggle('hidden', visibleCount > 0);
+            }
+        }
+
+        filterBtns.forEach(btn => {
+            btn.addEventListener('click', () => {
+                filterBtns.forEach(b => {
+                    b.className = "software-filter-btn px-4 py-2 rounded-xl text-xs sm:text-sm font-semibold transition bg-white text-slate-600 hover:bg-slate-100 border border-slate-200";
+                });
+                btn.className = "software-filter-btn px-4 py-2 rounded-xl text-xs sm:text-sm font-semibold transition bg-blue-600 text-white shadow-sm";
+                currentFilter = btn.getAttribute('data-filter');
+                applySoftwareFilter();
+            });
+        });
+
+        if (searchInput) {
+            searchInput.addEventListener('input', applySoftwareFilter);
+        }
+
     </script>
 </body>
 </html>
